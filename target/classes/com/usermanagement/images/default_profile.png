@@ -1,0 +1,5 @@
+/* This is a placeholder binary file. In a real environment, you would need to convert 
+   the SVG file to PNG using proper image editing tools or libraries like ImageMagick.
+   
+   For testing purposes, you can use any PNG image as default_profile.png and place it
+   in this directory. */ 

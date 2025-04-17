@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.usermanagement.controller.UserFormController">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="850.0" prefWidth="700.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+         </padding>
+         <children>
+            <Label fx:id="titleLabel" text="Create User" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="120.0" prefWidth="620.0">
+               <children>
+                  <ImageView fx:id="profileImageView" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="620.0">
+               <children>
+                  <Label prefWidth="150.0" text="Email:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="emailField" prefHeight="40.0" prefWidth="350.0" promptText="Email address">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <Label fx:id="emailErrorLabel" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="620.0" textFill="RED" translateX="150.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="620.0">
+               <children>
+                  <Label prefWidth="150.0" text="First Name:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="firstNameField" prefHeight="40.0" prefWidth="350.0" promptText="First name">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <Label fx:id="firstNameErrorLabel" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="620.0" textFill="RED" translateX="150.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="620.0">
+               <children>
+                  <Label prefWidth="150.0" text="Last Name:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="lastNameField" prefHeight="40.0" prefWidth="350.0" promptText="Last name">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <Label fx:id="lastNameErrorLabel" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="620.0" textFill="RED" translateX="150.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="620.0">
+               <children>
+                  <Label prefWidth="150.0" text="Date of Birth:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="dobField" prefHeight="40.0" prefWidth="350.0" promptText="Select date of birth" />
+               </children>
+            </HBox>
+            <Label fx:id="dobErrorLabel" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="620.0" textFill="RED" translateX="150.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="620.0">
+               <children>
+                  <Label prefWidth="150.0" text="Password:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="passwordField" prefHeight="40.0" prefWidth="350.0" promptText="Password">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+               </children>
+            </HBox>
+            <Label fx:id="passwordErrorLabel" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="620.0" textFill="RED" translateX="150.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="620.0">
+               <children>
+                  <Label prefWidth="150.0" text="Role:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="roleComboBox" prefHeight="40.0" prefWidth="350.0" promptText="Select role" />
+               </children>
+            </HBox>
+            <Label fx:id="roleErrorLabel" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="620.0" textFill="RED" translateX="150.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="620.0">
+               <children>
+                  <Label prefWidth="150.0" text="Phone:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="phoneField" prefHeight="40.0" prefWidth="350.0" promptText="Phone number">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <Label fx:id="phoneErrorLabel" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="620.0" textFill="RED" translateX="150.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="620.0">
+               <children>
+                  <Label prefWidth="150.0" text="Address:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="addressField" prefHeight="40.0" prefWidth="350.0" promptText="Address">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <Label fx:id="addressErrorLabel" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="620.0" textFill="RED" translateX="150.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="620.0">
+               <children>
+                  <Label prefWidth="150.0" text="Profile Image:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="350.0" spacing="10.0">
+                     <children>
+                        <TextField fx:id="imagePathField" prefHeight="40.0" prefWidth="260.0" promptText="Image path" visible="false" />
+                        <Button fx:id="browseButton" mnemonicParsing="false" onAction="#handleBrowseImage" prefHeight="40.0" text="Browse" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <Label fx:id="imageErrorLabel" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="620.0" textFill="RED" translateX="150.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="620.0">
+               <children>
+                  <Label prefWidth="150.0" text="">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <CheckBox fx:id="activeCheckBox" mnemonicParsing="false" prefHeight="40.0" prefWidth="350.0" selected="true" text="Active account">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </CheckBox>
+               </children>
+            </HBox>
+            <Label fx:id="errorLabel" textFill="RED">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #757575;" text="Cancel" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #3f51b5;" text="Save" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
