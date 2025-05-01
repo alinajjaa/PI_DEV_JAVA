@@ -1,0 +1,148 @@
+/* Global Styling */
+* {
+    -fx-font-family: "Poppins", "Arial", sans-serif; /* Poppins or fallback */
+}
+
+/* VBox Styling */
+VBox {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 15;
+    -fx-spacing: 12;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 4);
+}
+
+/* Input Fields */
+.input-field TextField,
+.input-field DatePicker,
+.input-field ComboBox {
+    -fx-pref-width: 220;
+    -fx-pref-height: 35; /* Match button height */
+    -fx-font-size: 16;
+    -fx-border-color: #139DF2;
+    -fx-border-width: 2;
+    -fx-border-radius: 8;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-padding: 5;
+}
+
+/* Input Hover & Focus */
+.input-field TextField:focused,
+.input-field DatePicker:focused,
+.input-field ComboBox:focused {
+    -fx-border-color: #1E90FF;
+    -fx-effect: dropshadow(three-pass-box, rgba(19, 157, 242, 0.3), 10, 0, 0, 5);
+}
+
+/* Buttons - Same Height as Inputs */
+Button {
+    -fx-pref-height: 35; /* Match input field height */
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #139DF2;
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+    -fx-cursor: hand;
+}
+
+/* Button Hover Effect */
+Button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #1E90FF;
+    -fx-effect: dropshadow(three-pass-box, rgba(19, 157, 242, 0.4), 8, 0, 0, 4);
+}
+
+/* Labels */
+.label-style {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #139DF2;
+}
+
+/* Table Styling */
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 8, 0, 0, 3);
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #139DF2;
+    -fx-font-size: 17;
+    -fx-padding: 8;
+}
+
+/* Search Field */
+.search-field {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #139DF2;
+    -fx-border-radius: 12;
+    -fx-padding: 10;
+    -fx-text-fill: #139DF2;
+}
+
+.search-field .text-input {
+    -fx-font-size: 16;
+    -fx-prompt-text-fill: rgba(19, 157, 242, 0.7);
+}
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar .thumb {
+    -fx-background-color: linear-gradient(to bottom, #139DF2, #1E90FF);
+}
+
+/* Message Styling */
+.user-message, .coach-message {
+    -fx-text-fill: white;
+    -fx-padding: 8;
+    -fx-font-size: 18;
+    -fx-max-width: 340px;
+    -fx-wrap-text: true;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
+
+.user-message {
+    -fx-background-color: #139DF2;
+}
+
+.coach-message {
+    -fx-background-color: #fd7c2b;
+}
+
+/* Matching TextArea Height */
+TextArea {
+    -fx-pref-width: 220;
+    -fx-pref-height: 35; /* Match input field and button height */
+    -fx-font-size: 16;
+    -fx-border-radius: 8;
+    -fx-border-color: #139DF2;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-padding: 5;
+}
+
+/* Adjusting ScrollPane Borders */
+.scroll-pane .scroll-bar .track,
+.scroll-pane .viewport,
+.scroll-pane .content,
+.scroll-pane .scroll-pane,
+.scroll-pane .scroll-bar,
+.scroll-pane .scroll-bar .increment-button,
+.scroll-pane .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}

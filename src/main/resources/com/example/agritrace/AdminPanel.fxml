@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.example.agritrace.Controllers.AdminPanelController">
+    <ScrollPane fitToHeight="true" fitToWidth="true">
+        <VBox alignment="TOP_CENTER" prefHeight="886.0" prefWidth="1166.0" spacing="20" style="-fx-background-color: #f9f9f9;">
+            <padding>
+                <Insets bottom="20" left="40" right="40" top="20" />
+            </padding>
+            <Button text="Voir les statistiques"
+                    onAction="#handleViewStatistics"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <!-- Blog Section -->
+            <TitledPane animated="true" expanded="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="📝 Blogs">
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+                    <TableView fx:id="blogTableView" prefHeight="200">
+                        <columns>
+                            <TableColumn fx:id="blogIdColumn" prefWidth="50" text="ID" />
+                            <TableColumn fx:id="blogTitleColumn" prefWidth="150" text="Title" />
+                            <TableColumn fx:id="blogContentColumn" prefWidth="300" text="Content" />
+                            <TableColumn fx:id="blogLikesColumn" prefWidth="133.5999755859375" text="Likes" />
+                            <TableColumn fx:id="blogActionsColumn" prefWidth="244.79998779296875" text="Actions" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </TitledPane>
+
+            <!-- Comment Section -->
+            <TitledPane animated="true" expanded="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="💬 Commentaires">
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+                    <TableView fx:id="commentTableView" prefHeight="200">
+                        <columns>
+                            <TableColumn fx:id="commentIdColumn" prefWidth="50" text="ID" />
+                            <TableColumn fx:id="commentBlogIdColumn" prefWidth="70" text="Blog ID" />
+                            <TableColumn fx:id="commentBlogTitleColumn" prefWidth="192.80001831054688" text="Blog Title" />
+                            <TableColumn fx:id="commentContentColumn" prefWidth="257.5999755859375" text="Content" />
+                            <TableColumn fx:id="commentActionsColumn" prefWidth="312.800048828125" text="Actions" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </TitledPane>
+
+            <!-- Report Section -->
+            <TitledPane animated="true" expanded="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="🚨 Signalements">
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+                    <TableView fx:id="reportTableView" prefHeight="200">
+                        <columns>
+                            <TableColumn fx:id="reportIdColumn" prefWidth="50" text="ID" />
+                            <TableColumn fx:id="reportBlogIdColumn" prefWidth="70" text="Blog ID" />
+                            <TableColumn fx:id="reportBlogTitleColumn" prefWidth="180.79995727539062" text="Blog Title" />
+                            <TableColumn fx:id="reportDescriptionColumn" prefWidth="269.60003662109375" text="Description" />
+                            <TableColumn fx:id="reportActionsColumn" prefWidth="309.5999755859375" text="Actions" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </TitledPane>
+
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

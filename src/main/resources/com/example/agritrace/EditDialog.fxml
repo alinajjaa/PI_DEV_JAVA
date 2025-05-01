@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10.0"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label fx:id="dialogTitle" text="Modifier les informations" style="-fx-font-size: 16px;"/>
+
+    <TextField fx:id="titleField" promptText="Titre" />
+    <TextArea fx:id="contentArea" promptText="Contenu" prefRowCount="4"/>
+
+    <!-- Champ inutile dans ce contexte -->
+    <!-- <TextField fx:id="commentField" promptText="Commentaire / Motif" /> -->
+
+    <HBox spacing="10.0" alignment="CENTER_RIGHT">
+        <Button fx:id="cancelButton" text="Annuler"/>
+        <Button fx:id="saveButton" text="Enregistrer"/>
+    </HBox>
+</VBox>

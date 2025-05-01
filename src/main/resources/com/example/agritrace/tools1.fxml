@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.agritrace.Controllers.BlogController"
+      style="-fx-padding: 25; -fx-background-color: #f5f5f5;">
+
+    <!-- HEADER -->
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <Label text="Blogs AgriTrace" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+        <Button text="Créer un blog" onAction="#showAddForm"
+                style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 8px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 2, 2);"/>
+    </HBox>
+
+    <!-- BARRE DE RECHERCHE -->
+    <VBox fx:id="blogListSection" spacing="20">
+        <TextField fx:id="searchField" promptText="Rechercher un blog..." style="-fx-padding: 10; -fx-border-radius: 8px; -fx-background-color: #fff; -fx-border-color: #ccc; -fx-font-size: 14px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 3, 3, 3);"/>
+        <VBox fx:id="blogContainer" spacing="20">
+            <!-- Les cartes des blogs seront injectées ici -->
+        </VBox>
+    </VBox>
+
+    <!-- FORMULAIRE AJOUT / MODIFICATION -->
+    <VBox fx:id="blogFormSection" spacing="20" visible="false" managed="false"
+          style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-border-color: #ccc; -fx-border-width: 1; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 5, 5, 5);">
+        <Label fx:id="formTitleLabel" text="Ajouter un blog" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+        <TextField fx:id="titleField" promptText="Titre du blog" style="-fx-padding: 10; -fx-background-color: #fff; -fx-border-radius: 8px; -fx-border-color: #ccc; -fx-font-size: 14px;"/>
+        <TextArea fx:id="contentArea" promptText="Contenu..." prefHeight="200" style="-fx-padding: 10; -fx-background-color: #fff; -fx-border-radius: 8px; -fx-border-color: #ccc; -fx-font-size: 14px;"/>
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Publier" onAction="#saveBlog"
+                    style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 8px;"/>
+            <Button text="Annuler" onAction="#cancelAddForm"
+                    style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 8px;"/>
+        </HBox>
+    </VBox>
+
+    <!-- FORMULAIRE MODIFICATION -->
+    <VBox fx:id="editFormSection" spacing="20" visible="false" managed="false"
+          style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-border-color: #ccc; -fx-border-width: 1; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 5, 5, 5);">
+        <Label text="Modifier le blog" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+        <TextField fx:id="editTitleField" promptText="Titre du blog" style="-fx-padding: 10; -fx-background-color: #fff; -fx-border-radius: 8px; -fx-border-color: #ccc; -fx-font-size: 14px;"/>
+        <TextArea fx:id="editContentArea" promptText="Contenu..." prefHeight="200" style="-fx-padding: 10; -fx-background-color: #fff; -fx-border-radius: 8px; -fx-border-color: #ccc; -fx-font-size: 14px;"/>
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Enregistrer les modifications" onAction="#updateBlog"
+                    style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 8px;"/>
+            <Button text="Annuler" onAction="#cancelEditForm"
+                    style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 8px;"/>
+        </HBox>
+    </VBox>
+</VBox>

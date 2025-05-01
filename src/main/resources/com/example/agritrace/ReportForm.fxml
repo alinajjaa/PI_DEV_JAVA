@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.agritrace.Controllers.ReportController">
+
+    <!-- Titre -->
+    <Label text="Pourquoi signalez-vous cette publication ?" />
+
+    <!-- Zone de texte pour la raison -->
+    <TextArea fx:id="reasonTextArea" prefRowCount="5" wrapText="true"/>
+
+    <!-- Bouton d'envoi -->
+    <Button text="Envoyer" onAction="#handleSend"/>
+
+    <!-- Label pour afficher les erreurs de validation -->
+    <Label fx:id="errorLabel" textFill="red" visible="false"/>
+
+</VBox>
