@@ -3,6 +3,7 @@ package org.agritrace.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +24,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import java.net.URL;
 import java.io.File;
+import javafx.scene.web.WebView;
+import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
 
 public class Home {
     @FXML
@@ -37,12 +41,23 @@ public class Home {
     private Button servicesButton;
     @FXML
     private Button LoccationsButton;
+    @FXML
+    private WebView locationPicker;
+    @FXML
+    private Slider rangeSelector;
+    @FXML
+    private Label rangeLabel;
+    @FXML
+    private Button applyFilterButton;
 
     private ServiceServices serviceServices;
     private ObservableList<Service> serviceList;
     private FilteredList<Service> filteredServices;
 
     private static final String DEFAULT_IMAGE = "/images/default-service.png";
+
+    private double selectedLat;
+    private double selectedLng;
 
     @FXML
     public void initialize() {
@@ -51,6 +66,12 @@ public class Home {
 
         // Set preferred width for the services container
         servicesContainer.setPrefWidth(900);  // Accommodate 3 cards of 280px width + gaps
+
+        // Initialize range selector
+        setupRangeSelector();
+
+        // Setup location picker
+        setupLocationPicker();
 
         // Setup search
         setupSearch();
@@ -62,10 +83,64 @@ public class Home {
         setupNavigation();
 
         // Clear button action
-        clearButton.setOnAction(e -> searchField.clear());
+        clearButton.setOnAction(e -> clearSearch());
+
+        // Apply filter button action
+        applyFilterButton.setOnAction(e -> applyLocationFilter());
 
         // Style the active nav button
         homeButton.getStyleClass().add("active-nav-button");
+    }
+
+    private void setupLocationPicker() {
+        try {
+            locationPicker.getEngine().setJavaScriptEnabled(true);
+            String url = getClass().getResource("/google_maps_picker.html").toExternalForm();
+            locationPicker.getEngine().load(url);
+            
+            locationPicker.getEngine().getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+                if (newState == Worker.State.SUCCEEDED) {
+                    try {
+                        JSObject window = (JSObject) locationPicker.getEngine().executeScript("window");
+                        JavaCallback callback = new JavaCallback();
+                        window.setMember("javaCallback", callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class JavaCallback {
+        public void onLocationSelected(double lat, double lng) {
+            javafx.application.Platform.runLater(() -> {
+                try {
+                    selectedLat = lat;
+                    selectedLng = lng;
+                    
+                    double range = rangeSelector.getValue();
+                    applyLocationFilter();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+    }
+
+    private void setupRangeSelector() {
+        // Update label when slider value changes
+        rangeSelector.valueProperty().addListener((obs, oldVal, newVal) -> {
+            int value = newVal.intValue();
+            rangeLabel.setText(value + " km");
+            
+            // If location is selected, automatically apply filter
+            if (selectedLat != 0 || selectedLng != 0) {
+                applyLocationFilter();
+            }
+        });
     }
 
     private void setupSearch() {
@@ -74,15 +149,16 @@ public class Home {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredServices.setPredicate(service -> {
                 if (newValue == null || newValue.trim().isEmpty()) {
-                    return true;
+                    return isWithinRange(service, rangeSelector.getValue());
                 }
 
                 String searchText = newValue.toLowerCase().trim();
 
-                return service.getNom().toLowerCase().contains(searchText) ||
+                return (service.getNom().toLowerCase().contains(searchText) ||
                        service.getType().toLowerCase().contains(searchText) ||
                        service.getDescription().toLowerCase().contains(searchText) ||
-                       service.getAdresse().toLowerCase().contains(searchText);
+                       service.getAdresse().toLowerCase().contains(searchText)) &&
+                       isWithinRange(service, rangeSelector.getValue());
             });
 
             // Update the displayed cards
@@ -131,34 +207,27 @@ public class Home {
                 if (resourceUrl != null) {
                     // Image found in resources
                     image = new Image(resourceUrl.toExternalForm());
-                    System.out.println("Loading image from resources: " + resourcePath);
                 } else {
                     // Try loading as direct file path
                     File file = new File(imagePath);
                     if (file.exists()) {
                         image = new Image(file.toURI().toString());
-                        System.out.println("Loading image from file: " + file.getAbsolutePath());
                     } else {
                         // Fall back to default image
-                        System.out.println("Image not found, using default: " + imagePath);
                         image = new Image(getClass().getResourceAsStream(DEFAULT_IMAGE));
                     }
                 }
             } else {
                 // Load default image
-                System.out.println("No image path provided, using default");
                 image = new Image(getClass().getResourceAsStream(DEFAULT_IMAGE));
             }
             
             if (image.isError()) {
-                System.out.println("Error loading image: " + imagePath);
                 image = new Image(getClass().getResourceAsStream(DEFAULT_IMAGE));
             }
             
             imageView.setImage(image);
         } catch (Exception e) {
-            System.err.println("Error loading image: " + e.getMessage());
-            // If any error occurs, try to load the default image
             try {
                 imageView.setImage(new Image(getClass().getResourceAsStream(DEFAULT_IMAGE)));
             } catch (Exception ex) {
@@ -280,5 +349,82 @@ public class Home {
                 e.printStackTrace();
             }
         });
+    }
+
+    @FXML
+    private void clearSearch() {
+        searchField.clear();
+        selectedLat = 0;
+        selectedLng = 0;
+        rangeSelector.setValue(10); // Reset to default
+        
+        // Reset the location picker using JavaScript
+        locationPicker.getEngine().executeScript("window.resetPicker()");
+        
+        // Reset the filter to show all services
+        filteredServices.setPredicate(service -> true);
+        updateServiceCards();
+    }
+
+    private void applyLocationFilter() {
+        if (selectedLat == 0 && selectedLng == 0) {
+            filteredServices.setPredicate(service -> true);
+            updateServiceCards();
+            return;
+        }
+
+        filteredServices.setPredicate(service -> {
+            if (service == null || service.getAdresse() == null || service.getAdresse().isEmpty()) {
+                return false;
+            }
+
+            try {
+                boolean inRange = isWithinRange(service, rangeSelector.getValue());
+                
+                if (searchField.getText() == null || searchField.getText().trim().isEmpty()) {
+                    return inRange;
+                }
+
+                String searchText = searchField.getText().toLowerCase().trim();
+                boolean matchesSearch = service.getNom().toLowerCase().contains(searchText) ||
+                                     service.getType().toLowerCase().contains(searchText) ||
+                                     service.getDescription().toLowerCase().contains(searchText) ||
+                                     service.getAdresse().toLowerCase().contains(searchText);
+                
+                return matchesSearch && inRange;
+            } catch (Exception e) {
+                return false;
+            }
+        });
+
+        updateServiceCards();
+    }
+
+    private boolean isWithinRange(Service service, double range) {
+        try {
+            String[] parts = service.getAdresse().split(";");
+            if (parts.length >= 3) {
+                double serviceLat = Double.parseDouble(parts[1].trim());
+                double serviceLng = Double.parseDouble(parts[2].trim());
+                double distance = calculateDistance(selectedLat, selectedLng, serviceLat, serviceLng);
+                return distance <= range;
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+        final int R = 6371; // Earth's radius in kilometers
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c; // Distance in kilometers
     }
 }

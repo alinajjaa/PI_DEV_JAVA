@@ -1,65 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Google Maps Picker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Picker</title>
     <style>
-        #map { height: 300px; width: 100%; }
-        body { margin: 0; padding: 0; }
-        #autocomplete { width: 100%; padding: 8px; margin-bottom: 5px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 5px;
+        }
+
+        #autocomplete {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+        #autocomplete:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
     </style>
 </head>
 <body>
-    <input id="autocomplete" type="text" placeholder="Type address here..." />
-    <div id="map"></div>
+    <input id="autocomplete" type="text" placeholder="Search for a location..." />
     <input type="hidden" id="service_adresse"/>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsotFOrHfzgBwa3bor0a0WxwWWXkN_AtA&libraries=places&callback=initMap&v=3.45" async defer></script>
+
     <script>
+        let selectedLat = 0;
+        let selectedLng = 0;
+
         function sendToJava(value) {
             if (window.java && window.java.onAddressSelected) {
                 window.java.onAddressSelected(value);
             }
         }
-        function setAddressFromJava(fullAddress, location, lat, lng) {
-            document.getElementById('autocomplete').value = location;
-            document.getElementById('service_adresse').value = fullAddress;
-            if (window.marker && window.map && lat && lng) {
-                var latNum = parseFloat(lat);
-                var lngNum = parseFloat(lng);
-                window.marker.setPosition({lat: latNum, lng: lngNum});
-                window.map.setCenter({lat: latNum, lng: lngNum});
+
+        function notifyCallback() {
+            if (!window.javaCallback) return;
+
+            try {
+                window.javaCallback.onLocationSelected(selectedLat, selectedLng);
+            } catch (e) {
+                console.error("Error calling Java callback:", e);
             }
         }
-        function initMap() {
-            const map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 36.8065, lng: 10.1815 },
-                zoom: 13,
-                mapTypeId: 'roadmap',
-                tilt: 0
-            });
-            map.setOptions({ mapId: '', mapTypeControl: false });
-            window.map = map;
-            const marker = new google.maps.Marker({
-                position: map.getCenter(),
-                map: map,
-                draggable: true
-            });
-            window.marker = marker;
+
+        function initAutocomplete() {
             const input = document.getElementById('autocomplete');
             const autocomplete = new google.maps.places.Autocomplete(input);
-            autocomplete.bindTo('bounds', map);
 
-            autocomplete.addListener('place_changed', function () {
+            autocomplete.addListener('place_changed', function() {
                 const place = autocomplete.getPlace();
-                if (!place.geometry) {
-                    alert("No details available for input: '" + place.name + "'");
-                    return;
-                }
-                map.setCenter(place.geometry.location);
-                map.setZoom(15);
-                marker.setPosition(place.geometry.location);
-                const latitude = place.geometry.location.lat();
-                const longitude = place.geometry.location.lng();
+                
+                if (!place.geometry) return;
+
+                selectedLat = place.geometry.location.lat();
+                selectedLng = place.geometry.location.lng();
+
                 let country = "", cityOrRegion = "";
                 place.address_components.forEach(component => {
                     if (component.types.includes("country")) country = component.long_name;
@@ -67,21 +69,21 @@
                     if (component.types.includes("administrative_area_level_1") && !cityOrRegion)
                         cityOrRegion = component.long_name.replace(" Governorate", "");
                 });
-                const formatted = `${country},${cityOrRegion};${latitude};${longitude}`;
-                document.getElementById('service_adresse').value = formatted;
-                sendToJava(formatted);
-            });
 
-            google.maps.event.addListener(marker, 'dragend', function (event) {
-                const latitude = event.latLng.lat();
-                const longitude = event.latLng.lng();
-                let savedValue = document.getElementById('service_adresse').value;
-                let [savedCountry, savedCity] = savedValue ? savedValue.split(";")[0].split(",") : ["", ""];
-                const formatted = `${savedCountry},${savedCity};${latitude};${longitude}`;
+                const formatted = `${country},${cityOrRegion};${selectedLat};${selectedLng}`;
                 document.getElementById('service_adresse').value = formatted;
+                
                 sendToJava(formatted);
+                setTimeout(notifyCallback, 500);
             });
         }
+
+        window.resetPicker = function() {
+            document.getElementById('autocomplete').value = '';
+            selectedLat = 0;
+            selectedLng = 0;
+        };
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsotFOrHfzgBwa3bor0a0WxwWWXkN_AtA&libraries=places&callback=initAutocomplete" async defer></script>
 </body>
 </html>

@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
 <ScrollPane fitToWidth="true" prefHeight="600" prefWidth="600" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.agritrace.controllers.AddService">
     <content>
-        <VBox spacing="10" styleClass="add-location-dialog"
-              stylesheets="@style.css">
+        <VBox spacing="10" styleClass="add-location-dialog" stylesheets="@style.css">
             <padding>
                 <Insets bottom="30" left="30" right="30" top="30" />
             </padding>
@@ -18,30 +26,41 @@
             <Text styleClass="dialog-title" text="Add New Service" />
 
             <!-- Form Content -->
-            <GridPane hgap="15" vgap="15" styleClass="form-grid">
-                <Label text="Name:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <GridPane hgap="15" prefWidth="538.0" styleClass="form-grid" vgap="15">
+                <Label styleClass="form-label" text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <TextField fx:id="tf_nom" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                <Label text="Type:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Label styleClass="form-label" text="Type:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                 <TextField fx:id="tf_type" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                <Label text="Description:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <TextArea fx:id="tf_desc" prefRowCount="3" wrapText="true" styleClass="form-field" 
-                          GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label styleClass="form-label" text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextArea fx:id="tf_desc" prefRowCount="3" styleClass="form-field" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                <Label text="Price:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <Label styleClass="form-label" text="Price:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
                 <TextField fx:id="tf_prix" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                <Label text="Status:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <Label styleClass="form-label" text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
                 <ChoiceBox fx:id="tf_status" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                <Label text="Address:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                <WebView fx:id="mapWebView" prefHeight="220" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label prefHeight="29.0" prefWidth="57.0" styleClass="form-label" text="Address:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <WebView fx:id="mapWebView" prefHeight="128.0" prefWidth="392.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <columnConstraints>
+               <ColumnConstraints />
+               <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
             </GridPane>
 
             <!-- Buttons -->
             <HBox alignment="CENTER" spacing="20" styleClass="button-bar">
-                <Button fx:id="btnajout" onAction="#SaveService" text="Add" styleClass="primary-button" />
+                <Button fx:id="btnajout" onAction="#SaveService" styleClass="primary-button" text="Add" />
             </HBox>
         </VBox>
     </content>
