@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Google Maps Picker</title>
+    <style>
+        #map { height: 300px; width: 100%; }
+        body { margin: 0; padding: 0; }
+        #autocomplete { width: 100%; padding: 8px; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <input id="autocomplete" type="text" placeholder="Type address here..." />
+    <div id="map"></div>
+    <input type="hidden" id="service_adresse"/>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsotFOrHfzgBwa3bor0a0WxwWWXkN_AtA&libraries=places&callback=initMap&v=3.45" async defer></script>
+    <script>
+        function sendToJava(value) {
+            if (window.java && window.java.onAddressSelected) {
+                window.java.onAddressSelected(value);
+            }
+        }
+        function setAddressFromJava(fullAddress, location, lat, lng) {
+            document.getElementById('autocomplete').value = location;
+            document.getElementById('service_adresse').value = fullAddress;
+            if (window.marker && window.map && lat && lng) {
+                var latNum = parseFloat(lat);
+                var lngNum = parseFloat(lng);
+                window.marker.setPosition({lat: latNum, lng: lngNum});
+                window.map.setCenter({lat: latNum, lng: lngNum});
+            }
+        }
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 36.8065, lng: 10.1815 },
+                zoom: 13,
+                mapTypeId: 'roadmap',
+                tilt: 0
+            });
+            map.setOptions({ mapId: '', mapTypeControl: false });
+            window.map = map;
+            const marker = new google.maps.Marker({
+                position: map.getCenter(),
+                map: map,
+                draggable: true
+            });
+            window.marker = marker;
+            const input = document.getElementById('autocomplete');
+            const autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+
+            autocomplete.addListener('place_changed', function () {
+                const place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+                map.setCenter(place.geometry.location);
+                map.setZoom(15);
+                marker.setPosition(place.geometry.location);
+                const latitude = place.geometry.location.lat();
+                const longitude = place.geometry.location.lng();
+                let country = "", cityOrRegion = "";
+                place.address_components.forEach(component => {
+                    if (component.types.includes("country")) country = component.long_name;
+                    if (component.types.includes("locality")) cityOrRegion = component.long_name;
+                    if (component.types.includes("administrative_area_level_1") && !cityOrRegion)
+                        cityOrRegion = component.long_name.replace(" Governorate", "");
+                });
+                const formatted = `${country},${cityOrRegion};${latitude};${longitude}`;
+                document.getElementById('service_adresse').value = formatted;
+                sendToJava(formatted);
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+                const latitude = event.latLng.lat();
+                const longitude = event.latLng.lng();
+                let savedValue = document.getElementById('service_adresse').value;
+                let [savedCountry, savedCity] = savedValue ? savedValue.split(";")[0].split(",") : ["", ""];
+                const formatted = `${savedCountry},${savedCity};${latitude};${longitude}`;
+                document.getElementById('service_adresse').value = formatted;
+                sendToJava(formatted);
+            });
+        }
+    </script>
+</body>
+</html>

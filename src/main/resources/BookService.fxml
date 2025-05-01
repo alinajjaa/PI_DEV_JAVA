@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.agritrace.controllers.BookService">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <children>
+        <!-- Service Info Section -->
+        <VBox spacing="5" styleClass="info-section">
+            <Label fx:id="serviceName" styleClass="service-name"/>
+            <Label fx:id="serviceType" styleClass="service-type"/>
+            <Label fx:id="servicePrice" styleClass="service-price"/>
+            <Separator/>
+        </VBox>
+
+        <!-- Booking Details Section -->
+        <VBox spacing="10">
+            <Label text="Booking Details" styleClass="section-header"/>
+            
+            <Label text="Details/Special Requests:"/>
+            <TextArea fx:id="detailsField" prefRowCount="3" wrapText="true"/>
+
+            <Label text="Start Date:"/>
+            <DatePicker fx:id="dateDebutPicker"/>
+
+            <Label text="End Date:"/>
+            <DatePicker fx:id="dateFinPicker"/>
+        </VBox>
+
+        <!-- Total Price Section -->
+        <VBox spacing="5" styleClass="price-section">
+            <Label text="Total Price:"/>
+            <Label fx:id="totalPriceLabel" styleClass="total-price"/>
+        </VBox>
+
+        <!-- Buttons -->
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel" styleClass="cancel-button"/>
+            <Button fx:id="confirmButton" text="Confirm Booking" onAction="#handleConfirm" styleClass="confirm-button"/>
+        </HBox>
+    </children>
+</VBox>

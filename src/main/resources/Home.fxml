@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane fx:id="rootPane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.agritrace.controllers.Home">
+    <children>
+        <SplitPane fx:id="splitPane" dividerPositions="0.2" orientation="HORIZONTAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <VBox id="sideNavBar" fx:id="sideNavBar" prefWidth="200.0" spacing="10.0">
+                    <padding>
+                        <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+                    </padding>
+                    <children>
+                        <Button fx:id="homeButton" text="Home" />
+                        <Button fx:id="servicesButton" text="Services" />
+                        <Button fx:id="LoccationsButton" text="Locations" />
+                        <Button fx:id="logoutButton" text="Logout" />
+                    </children>
+                </VBox>
+
+                <VBox>
+                    <!-- Search Controls -->
+                    <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="search-box">
+                        <padding>
+                            <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+                        </padding>
+                        <TextField fx:id="searchField" promptText="Search services..." prefWidth="200.0"/>
+                        <Button fx:id="clearButton" text="Clear"/>
+                    </HBox>
+
+                    <!-- Services Grid -->
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="edge-to-edge">
+                        <content>
+                            <FlowPane fx:id="servicesContainer" hgap="20" vgap="20" prefWrapLength="900">
+                                <padding>
+                                    <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                                </padding>
+                            </FlowPane>
+                        </content>
+                    </ScrollPane>
+                </VBox>
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>
