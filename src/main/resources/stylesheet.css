@@ -1,0 +1,26 @@
+#AfficherProduitScene {
+  -fx-background-color: black;
+}
+
+#scroll {
+  -fx-background-color: transparent;
+  -fx-border-color: #008152;
+  -fx-border-width: 1px;
+}
+
+.HBox {
+  -fx-background-color: transparent;
+}
+
+.JFXButton {
+  -fx-background-color: #008152;
+  -fx-text-fill: white;
+}
+
+.Label {
+  -fx-text-fill: white;
+}
+
+.Line {
+  -fx-stroke: #008152;
+}

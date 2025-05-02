@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f78d8646-29f5-49aa-9ca4-3ac336056015" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ReviewsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/entities/Comment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/service/CommentService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ReviewsWindow.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherPanierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherPanierController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherProduitController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherProduitController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ItemPUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ItemPUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/service/MailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/service/MailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/service/ServiceProduit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/service/ServiceProduit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/AfficherProduit.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AfficherProduit.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ItemPUser.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ItemPUser.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/AfficherProduit.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AfficherProduit.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ItemPUser.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ItemPUser.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/esprit/controllers/AfficherPanierController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/esprit/controllers/AfficherPanierController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/esprit/controllers/AfficherProduitController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/esprit/controllers/AfficherProduitController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/esprit/controllers/ItemPUserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/esprit/controllers/ItemPUserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tn/esprit/test/MainFX.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tn/esprit/test/MainFX.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+        <option value="module-info" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2vlShde3RKRxQm8L93f5JyBktDs" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.MainFX.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "F:/gestionproduitgit",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="MainFX" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="tn.esprit.test.MainFX" />
+      <module name="gestionproduit" />
+      <option name="VM_PARAMETERS" value="--add-modules javafx.controls,javafx.fxml,javafx.web --add-exports=javafx.graphics/com.sun.javafx.sg.prism.web=ALL-UNNAMED --add-opens=javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED --add-opens=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED --add-opens=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED --add-opens=javafx.scene.web/com.sun.java.scene.web=ALL-UNNAMED --module-path $PROJECT_DIR$/../javafx-sdk-17.0.15/lib --add-modules javafx.controls,javafx.fxml --add-exports=javafx.graphics/com.sun.javafx.sg.prism.web=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED " />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f78d8646-29f5-49aa-9ca4-3ac336056015" name="Changes" comment="" />
+      <created>1744718289631</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1744718289631</updated>
+      <workItem from="1744718290850" duration="10064000" />
+      <workItem from="1744737633205" duration="9712000" />
+      <workItem from="1744833478987" duration="18313000" />
+      <workItem from="1744879437725" duration="11304000" />
+      <workItem from="1744916406993" duration="3799000" />
+      <workItem from="1744921402786" duration="3841000" />
+      <workItem from="1745154913109" duration="2235000" />
+      <workItem from="1745537191626" duration="1162000" />
+      <workItem from="1746036800758" duration="19144000" />
+      <workItem from="1746120996782" duration="5471000" />
+      <workItem from="1746131724513" duration="40000" />
+      <workItem from="1746132821443" duration="3534000" />
+      <workItem from="1746142905703" duration="2515000" />
+      <workItem from="1746145449120" duration="2922000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

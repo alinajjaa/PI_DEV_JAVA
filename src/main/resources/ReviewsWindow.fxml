@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" alignment="TOP_LEFT"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tn.esprit.controllers.ReviewsController"
+      style="-fx-background-color: #ffffff; -fx-padding: 20;">
+
+    <!-- Titre -->
+    <Label text="Commentaires" style="-fx-font-size: 22px; -fx-font-weight: bold;" />
+
+    <!-- Liste des commentaires -->
+    <ScrollPane fitToWidth="true" prefHeight="300">
+        <VBox fx:id="commentListVBox" spacing="10" style="-fx-padding: 10; -fx-background-color: #f9f9f9;"/>
+    </ScrollPane>
+
+    <!-- Ajout d'un commentaire -->
+    <VBox spacing="12" style="-fx-padding: 10; -fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;">
+        <Label text="Ajouter un commentaire" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+        <TextArea fx:id="commentInput" promptText="Votre commentaire..."
+                  prefHeight="100" prefWidth="400" wrapText="true" />
+
+
+        <Label fx:id="messageLabel" text="" visible="false" style="-fx-text-fill:#004e2a;"/>
+
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <Button text="Publier" onAction="#handleAddComment"
+                    style="-fx-background-color: #008152; -fx-text-fill: white; -fx-padding: 10 20;"/>
+            <Button text="Annuler" onAction="#closePopup"
+                    style="-fx-background-color: #004e2a; -fx-text-fill: white; -fx-padding: 10 20;"/>
+        </HBox>
+    </VBox>
+</VBox>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.VBox?>
+<AnchorPane fx:id="AfficherProduitScene" prefHeight="800.0" prefWidth="1300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AfficherProduitController">
+    <stylesheets>
+        <URL value="@stylesheet.css" />
+    </stylesheets>
+    <children>
+        <ImageView fitHeight="64.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+            <!--         <image>-->
+            <!--            <Image url="logo.png" />-->
+            <!--         </image>-->
+        </ImageView>
+
+
+
+        <Line endX="1066.0" layoutX="167.0" layoutY="163.0" startX="-100.0" stroke="#008152" />
+        <HBox layoutX="38.0" layoutY="178.0" prefHeight="607.0" prefWidth="1229.0" style="-fx-background-color: transparent;">
+            <children>
+                <ScrollPane fx:id="scroll" prefHeight="607.0" prefWidth="1218.0" style="-fx-background-color: transparent; -fx-border-color: #008152; -fx-border-width: 1px;">
+                    <content>
+                        <GridPane fx:id="grid" prefHeight="293.0" prefWidth="1204.0" style="-fx-background-color: white;">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                        </GridPane>
+                    </content>
+                    <HBox.margin>
+                        <Insets left="10.0" />
+                    </HBox.margin>
+                </ScrollPane>
+            </children>
+        </HBox>
+        <AnchorPane fx:id="formContainer" layoutX="950.0" layoutY="180.0" prefWidth="320.0" prefHeight="400.0" style="-fx-background-color: #f0f0f0; -fx-border-color: #008152; -fx-border-width: 2;" visible="false" />
+
+        <JFXButton buttonType="RAISED" layoutX="162.0" layoutY="110.0" onAction="#ajouterProduitOnClick" prefHeight="22.0" prefWidth="140.0" style="-fx-background-color: #008152;" text="Add Product" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </JFXButton>
+
+        <JFXButton buttonType="RAISED" layoutX="312.0" layoutY="110.0" onAction="#ajouterCategorieOnClick" prefHeight="22.0" prefWidth="150.0" style="-fx-background-color: #008152;" text="Add Category" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </JFXButton>
+        <JFXButton buttonType="RAISED" layoutX="472.0" layoutY="110.0" onAction="#viewcategory" prefHeight="22.0" prefWidth="160.0" style="-fx-background-color: #008152;" text="View category" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </JFXButton>
+
+        <JFXTextField fx:id="searchField" layoutX="708.0" layoutY="114.0" promptText="Search Product" unFocusColor="WHITE">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </JFXTextField>
+      <JFXButton  buttonType="RAISED" layoutX="917.0" layoutY="111.0"  prefHeight="19.0" prefWidth="135.0" style="-fx-background-color: #008152;" text="Export to excel" textFill="WHITE" onAction="#exportToExcel">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </JFXButton>
+        <HBox fx:id="statsBox" layoutX="38.0" layoutY="60.0" spacing="30.0">
+            <children>
+                <VBox alignment="CENTER" spacing="10.0" prefWidth="250.0" prefHeight="100.0" style="-fx-background-color: #f4fdf9; -fx-border-color: #008152; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,129,82,0.2), 10, 0.5, 0, 5);">
+                    <children>
+                        <Label text="Total Products" textFill="#008152">
+                            <font>
+                                <Font size="16.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="totalProductsLabel" text="0" textFill="#333333">
+                            <font>
+                                <Font size="28.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+
+                <VBox alignment="CENTER" spacing="10.0" prefWidth="250.0" prefHeight="100.0" style="-fx-background-color: #f4fdf9; -fx-border-color: #008152; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,129,82,0.2), 10, 0.5, 0, 5);">
+                    <children>
+                        <Label text="Total Categories" textFill="#008152">
+                            <font>
+                                <Font size="16.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="totalCategoriesLabel" text="0" textFill="#333333">
+                            <font>
+                                <Font size="28.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+    </children>
+</AnchorPane>

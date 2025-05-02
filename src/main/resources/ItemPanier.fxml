@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="214.0" prefWidth="793.0" style="-fx-background-color: white; -fx-border-color: #008152;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ItemPanierController">
+
+<HBox layoutX="4.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="147.0" prefWidth="789.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="itemimg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+
+      </ImageView>
+      <VBox prefHeight="150.0" prefWidth="549.0">
+         <children>
+            <HBox prefHeight="168.0" prefWidth="522.0">
+               <children>
+                  <Label fx:id="itemname" text="nom_prod" textFill="#008152">
+                     <font>
+                        <Font name="Candara" size="18.0" />
+                     </font>
+                        <padding>
+                           <Insets top="50.0" />
+                        </padding>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox prefHeight="150.0" prefWidth="99.0">
+         <children>
+            <Label fx:id="itemprice" text="prix_prod" textFill="#008152">
+               <font>
+                  <Font name="Candara" size="15.0" />
+               </font>
+                  <padding>
+                     <Insets top="50.0" />
+                  </padding>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</HBox>
+   <JFXButton fx:id="Delete" buttonType="RAISED" layoutX="309.0" layoutY="162.0" onAction="#handleBasketDeletion" prefHeight="38.0" prefWidth="176.0" style="-fx-background-color: #008152;" text="Delete from basket" textFill="WHITE">
+      <font>
+         <Font size="17.0" />
+      </font>
+   </JFXButton>
+   <Label layoutX="14.0" layoutY="154.0" text="Quantity : " textFill="#008152" />
+   <Label fx:id="totalPriceLabel" layoutX="14.0" layoutY="170.0" text="total  : " textFill="#008152" />
+
+   <Label fx:id="quantite" layoutX="76.0" layoutY="154.0" text="quantite" textFill="#008152" />
+   <ImageView fx:id="moins" fitHeight="29.0" fitWidth="29.0" layoutX="268.0" layoutY="167.0" onMouseClicked="#onMoinsClicked" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@moins.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="plus" fitHeight="29.0" fitWidth="29.0" layoutX="497.0" layoutY="167.0" onMouseClicked="#onPlusClicked" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="plus.png" />
+      </image>
+   </ImageView>
+   </AnchorPane>

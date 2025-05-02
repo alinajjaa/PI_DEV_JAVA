@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="800.0" prefWidth="1300.0"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.AfficherPanierController">
+    <content>
+        <AnchorPane prefHeight="841.0" prefWidth="1300.0" style="-fx-background-color: #FFFFFF;">
+            <children>
+
+                <!-- Titre -->
+                <Label layoutX="89.0" layoutY="140.0" text="Basket" textFill="#008152">
+                    <font>
+                        <Font name="System Bold" size="32.0" />
+                    </font>
+                </Label>
+
+                <!-- Ligne de séparation -->
+                <Line layoutX="182.0" layoutY="195.0" startX="-100.0" endX="1066.0" stroke="#008152" />
+
+                <!-- Container de la liste des éléments du panier -->
+                <VBox layoutX="82.0" layoutY="218.0" prefHeight="549.0" prefWidth="793.0">
+                    <children>
+                        <ScrollPane prefHeight="546.0" prefWidth="793.0" style="-fx-background-color: transparent;">
+                            <content>
+                                <GridPane fx:id="PanierContainer" prefHeight="140.0" prefWidth="793.0"
+                                          style="-fx-background-color: #FFFFFF; -fx-border-color: #008152;">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    </columnConstraints>
+                                </GridPane>
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </VBox>
+
+                <!-- Résumé panier à droite -->
+                <GridPane layoutX="961.0" layoutY="235.0" prefHeight="259.0" prefWidth="250.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <VBox prefHeight="314.0" prefWidth="211.0"
+                              alignment="CENTER"
+                              spacing="20"
+                              style="-fx-border-color: #C7DDC5; -fx-border-radius: 29; -fx-background-color: #F9F9F9;">
+                            <children>
+                                <Label fx:id="totalPriceLabel" text="Total: 0.00 TND" style="-fx-text-fill: #008152;">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Label>
+                                <JFXButton fx:id="BuyButton" text="Buy" buttonType="RAISED"
+                                           prefWidth="100.0" prefHeight="40.0"
+                                           onAction="#handleBuy"
+                                           style="-fx-background-color: #008152;" textFill="WHITE">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </JFXButton>
+                            </children>
+                        </VBox>
+
+                    </children>
+                </GridPane>
+
+                <!-- Bouton Shop -->
+                <JFXButton fx:id="ShopButton" layoutX="1147.0" layoutY="149.0"
+                           onAction="#openShop" prefHeight="43.0" prefWidth="102.0"
+                           buttonType="RAISED" text="Shop" textFill="WHITE"
+                           style="-fx-background-color: #008152;">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </JFXButton>
+
+                <!-- Bouton Clear -->
+                <JFXButton fx:id="ClearButton" layoutX="211.0" layoutY="149.0"
+                           onAction="#clearBasket" prefHeight="38.0" prefWidth="96.0"
+                           buttonType="RAISED" text="Clear" textFill="WHITE"
+                           style="-fx-background-color: #008152;">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </JFXButton>
+
+            </children>
+        </AnchorPane>
+    </content>
+</ScrollPane>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="ModifierCategorieScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ModifierCategorieController">
+   <children>
+      <AnchorPane layoutY="-2.0" prefHeight="600.0" prefWidth="1000.0">
+         <children>
+            <AnchorPane prefHeight="605.0" prefWidth="500.0" style="-fx-background-color: #008152;">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="172.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+<!--                     <image>-->
+<!--                        <Image url="logo.png" />-->
+<!--                     </image>-->
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="500.0" layoutY="-2.0" prefHeight="605.0" prefWidth="500.0" style="-fx-background-color: #262626;">
+         <children>
+            <JFXTextField fx:id="nom_categorie" focusColor="WHITE" labelFloat="true" layoutX="53.0" layoutY="186.0" prefHeight="35.0" prefWidth="395.0" promptText="Nom du catégorie" unFocusColor="#008152">
+               <opaqueInsets>
+                  <Insets top="100.0" />
+               </opaqueInsets>
+            </JFXTextField>
+            <JFXTextField fx:id="description_categorie" focusColor="WHITE" labelFloat="true" layoutX="54.0" layoutY="258.0" prefHeight="35.0" prefWidth="395.0" promptText="Description de la catégorie" unFocusColor="#008152">
+               <opaqueInsets>
+                  <Insets top="100.0" />
+               </opaqueInsets>
+            </JFXTextField>
+            <JFXTextField fx:id="type_categorie" focusColor="WHITE" labelFloat="true" layoutX="54.0" layoutY="334.0" prefHeight="35.0" prefWidth="395.0" promptText="Type de la catégorie" unFocusColor="#008152">
+               <opaqueInsets>
+                  <Insets top="100.0" />
+               </opaqueInsets>
+            </JFXTextField>
+            <Label layoutX="108.0" layoutY="76.0" text="Modifier une catégorie" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="Modifier" buttonType="RAISED" layoutX="160.0" layoutY="459.0" onAction="#modifierCategorie" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: #008152;" text="Modifier" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

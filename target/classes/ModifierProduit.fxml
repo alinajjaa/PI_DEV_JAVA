@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="ModifierProduitScene" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ModifierProduitController">
+    <children>
+        <AnchorPane layoutX="500.0" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: #262626;">
+            <children>
+                <JFXTextField fx:id="nom_prod" focusColor="WHITE" labelFloat="true" layoutX="53.0" layoutY="150.0" prefHeight="35.0" prefWidth="395.0" promptText="Nom du produit" unFocusColor="#008152">
+                    <opaqueInsets>
+                        <Insets top="100.0" />
+                    </opaqueInsets>
+                </JFXTextField>
+                <JFXTextField fx:id="prix_prod" focusColor="WHITE" labelFloat="true" layoutX="53.0" layoutY="205.0" prefHeight="25.0" prefWidth="395.0" promptText="Prix du produit" unFocusColor="#008152">
+                    <opaqueInsets>
+                        <Insets top="100.0" />
+                    </opaqueInsets>
+                </JFXTextField>
+                <JFXTextField fx:id="description_prod" focusColor="WHITE" labelFloat="true" layoutX="53.0" layoutY="259.0" prefHeight="35.0" prefWidth="395.0" promptText="Description du produit" unFocusColor="#008152">
+                    <opaqueInsets>
+                        <Insets top="100.0" />
+                    </opaqueInsets>
+                </JFXTextField>
+                <JFXTextField fx:id="quantite_prod" focusColor="WHITE" labelFloat="true" layoutX="53.0" layoutY="324.0" prefHeight="35.0" prefWidth="395.0" promptText="Quantité du produit" unFocusColor="#008152">
+                    <opaqueInsets>
+                        <Insets top="100.0" />
+                    </opaqueInsets>
+                </JFXTextField>
+                <Label layoutX="108.0" layoutY="76.0" text="Modifier votre produit" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="28.0" />
+                    </font>
+                </Label>
+                <ImageView fx:id="image_prod" accessibleText="Import Image" fitHeight="40.0" fitWidth="140.0" layoutX="329.0" layoutY="445.0" onMouseClicked="#importImage" pickOnBounds="true" preserveRatio="true" style="-fx-image: #008152;">
+
+                </ImageView>
+                <JFXButton fx:id="Modifier" buttonType="RAISED" layoutX="159.0" layoutY="501.0" onAction="#modifierProduit" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: #008152;" text="Modifier" textFill="WHITE">
+                    <font>
+                        <Font size="17.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton buttonType="RAISED" layoutX="53.0" layoutY="445.0" onAction="#importImage" style="-fx-background-color: #008152;" text="Télécharger la photo du produit" textFill="WHITE" />
+            <JFXComboBox fx:id="categorieComboBox" focusColor="WHITE" layoutX="53.0" layoutY="400.0" prefHeight="25.0" prefWidth="395.0" promptText="Catégorie" unFocusColor="#008152" />
+
+            </children></AnchorPane>
+        <AnchorPane prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: #008152;">
+            <children>
+                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="172.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+<!--               <image>-->
+<!--                  <Image url="logo.png" />-->
+<!--               </image>-->
+                </ImageView>
+            </children>
+        </AnchorPane>
+      <TextField fx:id="imgpathstring" layoutX="328.0" layoutY="568.0" />
+    </children>
+</AnchorPane>
