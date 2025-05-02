@@ -1,75 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="rootPane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.agritrace.controllers.ServiceIndex">
-    <children>
-        <!-- SplitPane -->
-        <SplitPane fx:id="splitPane" dividerPositions="0.5" orientation="HORIZONTAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <items>
-                <!-- Side Navigation Bar -->
-                <VBox id="sideNavBar" fx:id="sideNavBar" prefWidth="300.0" spacing="10.0">
-                    <children>
-                        <Button fx:id="homeButton" text="Home" />
-                        <Button fx:id="servicesButton" text="Services" />
-                        <Button fx:id="LoccationsButton" text="Locations" />
-                        <Button fx:id="calendarButton" text="Calendar" />
-                        <Button fx:id="logoutButton" text="Logout" />
-                    </children>
-                </VBox>
+<BorderPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="org.agritrace.controllers.ServiceIndex"
+          prefHeight="800.0" prefWidth="1200.0"
+          stylesheets="@style.css">
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
 
-                <AnchorPane fx:id="tablePane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-                    <children>
-                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                            <!-- Search Controls -->
-                            <HBox spacing="10.0" alignment="CENTER_LEFT">
-                                <padding>
-                                    <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
-                                </padding>
-                                <TextField fx:id="searchField" promptText="Search services..." prefWidth="200.0"/>
-                                <ComboBox fx:id="filterStatus" promptText="Filter by status"/>
-                                <Button fx:id="clearButton" text="Clear"/>
-                            </HBox>
+    <left>
+        <!-- Side Navigation Bar -->
+        <VBox id="sideNavBar" fx:id="sideNavBar" prefWidth="200.0" spacing="10.0">
+            <padding>
+                <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+            </padding>
+            <Button fx:id="homeButton" text="%nav.home" styleClass="nav-button" />
+            <Button fx:id="servicesButton" text="%nav.services" styleClass="nav-button" />
+            <Button fx:id="locationsButton" text="%nav.locations" styleClass="nav-button" />
+            <Button fx:id="calendarButton" text="%nav.calendar" styleClass="nav-button" />
+            <Region VBox.vgrow="ALWAYS" />
+            <ComboBox fx:id="languageComboBox" prefWidth="150" />
+            <Button fx:id="logoutButton" text="%nav.logout" styleClass="nav-button" />
+        </VBox>
+    </left>
 
-                            <!-- Table and Add Button -->
-                            <SplitPane fx:id="verticalSplitPane" dividerPositions="0.85" orientation="VERTICAL" VBox.vgrow="ALWAYS">
-                                <items>
-                                    <!-- TableView Section -->
-                                    <AnchorPane>
-                                        <TableView fx:id="serviceTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <columns>
-                                                <TableColumn fx:id="idColumn" text="ID" />
-                                                <TableColumn fx:id="nameColumn" text="Name" />
-                                                <TableColumn fx:id="typeColumn" text="Type" />
-                                                <TableColumn fx:id="descColumn" text="Description" />
-                                                <TableColumn fx:id="priceColumn" text="Price" />
-                                                <TableColumn fx:id="statusColumn" text="Status" />
-                                                <TableColumn fx:id="addressColumn" text="Address" />
-                                                <TableColumn fx:id="dateColumn" text="Updated At" /> 
-                                                <TableColumn fx:id="actionColumn" text="Actions" />
-                                            </columns>
-                                        </TableView>
-                                    </AnchorPane>
+    <center>
+        <VBox spacing="20.0">
+            <HBox spacing="10.0" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField" promptText="%search.prompt" prefWidth="200.0"/>
+                <ComboBox fx:id="filterStatus" promptText="%service.status"/>
+                <Button fx:id="clearButton" text="%button.clear"/>
+            </HBox>
 
-                                    <!-- Add Button Section -->
-                                    <AnchorPane>
-                                        <Button fx:id="addButton" onAction="#AddService" text="Add" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0" />
-                                    </AnchorPane>
-                                </items>
-                            </SplitPane>
-                        </VBox>
-                    </children>
-                </AnchorPane>
-            </items>
-        </SplitPane>
-    </children>
-</AnchorPane>
+            <TableView fx:id="serviceTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="%service.id" prefWidth="50"/>
+                    <TableColumn fx:id="nameColumn" text="%service.name" prefWidth="150"/>
+                    <TableColumn fx:id="typeColumn" text="%service.type" prefWidth="100"/>
+                    <TableColumn fx:id="descColumn" text="%service.description" prefWidth="200"/>
+                    <TableColumn fx:id="priceColumn" text="%service.price" prefWidth="100"/>
+                    <TableColumn fx:id="statusColumn" text="%service.status" prefWidth="100"/>
+                    <TableColumn fx:id="addressColumn" text="%service.address" prefWidth="150"/>
+                    <TableColumn fx:id="dateColumn" text="%service.date" prefWidth="150"/>
+                    <TableColumn fx:id="actionColumn" text="%button.actions" prefWidth="150"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10.0" alignment="CENTER">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+                <Button fx:id="addButton" text="%service.add" styleClass="action-button" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

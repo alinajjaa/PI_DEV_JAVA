@@ -17,14 +17,25 @@
 
     <!-- Filter Controls -->
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="User ID:" />
-        <TextField fx:id="userIdField" promptText="Enter User ID" prefWidth="100"/>
+        <Label text="%calendar.filter.user" />
+        <TextField fx:id="userIdField" promptText="%calendar.filter.user" prefWidth="100"/>
         
-        <Label text="Service:" />
+        <Label text="%calendar.filter.service" />
         <ComboBox fx:id="serviceComboBox" prefWidth="200"/>
         
-        <Button fx:id="applyFilterButton" text="Apply Filter" styleClass="action-button"/>
-        <Button fx:id="clearFilterButton" text="Clear Filter" styleClass="action-button"/>
+        <Button fx:id="applyFilterButton" text="%button.apply" styleClass="action-button"/>
+        <Button fx:id="clearFilterButton" text="%button.clear" styleClass="action-button"/>
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <ComboBox fx:id="languageComboBox" prefWidth="100" />
+        <Button fx:id="closeButton" text="%button.close" onAction="#handleClose" styleClass="action-button"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Button fx:id="dayViewButton" text="%calendar.view.day" />
+        <Button fx:id="weekViewButton" text="%calendar.view.week" />
+        <Button fx:id="monthViewButton" text="%calendar.view.month" />
     </HBox>
 
     <!-- Calendar -->

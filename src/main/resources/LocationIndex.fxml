@@ -1,59 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<AnchorPane fx:id="rootPane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.agritrace.controllers.LocationIndex">
-    <children>
-        <SplitPane fx:id="splitPane" dividerPositions="0.5" orientation="HORIZONTAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <items>
-                <!-- Side Navigation Bar -->
-                <VBox id="sideNavBar" fx:id="sideNavBar" prefWidth="300.0" spacing="10.0">
-                    <children>
-                        <Button fx:id="homeButton" text="Home" />
-                        <Button fx:id="servicesButton" text="Services" />
-                        <Button fx:id="locationsButton" text="Locations" />
-                        <Button fx:id="calendarButton" text="Calendar" />
-                        <Button fx:id="logoutButton" text="Logout" />
-                    </children>
-                </VBox>
+<BorderPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="org.agritrace.controllers.LocationIndex"
+          prefHeight="800.0" prefWidth="1200.0"
+          stylesheets="@style.css">
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
 
-                <VBox>
-                    <!-- Search Controls -->
-                    <HBox spacing="10.0" alignment="CENTER_LEFT">
-                        <padding>
-                            <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
-                        </padding>
-                        <TextField fx:id="searchField" promptText="Search locations..." prefWidth="200.0"/>
-                        <Button fx:id="clearButton" text="Clear"/>
-                    </HBox>
+    <left>
+        <!-- Side Navigation Bar -->
+        <VBox id="sideNavBar" fx:id="sideNavBar" prefWidth="200.0" spacing="10.0">
+            <padding>
+                <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+            </padding>
+            <Button fx:id="homeButton" text="%nav.home" styleClass="nav-button" />
+            <Button fx:id="servicesButton" text="%nav.services" styleClass="nav-button" />
+            <Button fx:id="locationsButton" text="%nav.locations" styleClass="nav-button" />
+            <Button fx:id="calendarButton" text="%nav.calendar" styleClass="nav-button" />
+            <Region VBox.vgrow="ALWAYS" />
+            <ComboBox fx:id="languageComboBox" prefWidth="150" />
+            <Button fx:id="logoutButton" text="%nav.logout" styleClass="nav-button" />
+        </VBox>
+    </left>
 
-                    <!-- Table and Add Button -->
-                    <SplitPane fx:id="verticalSplitPane" dividerPositions="0.85" orientation="VERTICAL" VBox.vgrow="ALWAYS">
-                        <items>
-                            <AnchorPane>
-                                <TableView fx:id="locationTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                    <columns>
-                                        <TableColumn fx:id="idColumn" text="ID" />
-                                        <TableColumn fx:id="serviceIdColumn" text="Service ID" />
-                                        <TableColumn fx:id="userIdColumn" text="User ID" />
-                                        <TableColumn fx:id="detailsColumn" text="Details" />
-                                        <TableColumn fx:id="totalPriceColumn" text="Total Price" />
-                                        <TableColumn fx:id="startDateColumn" text="Start Date" />
-                                        <TableColumn fx:id="endDateColumn" text="End Date" />
-                                        <TableColumn fx:id="actionColumn" text="Actions" />
-                                    </columns>
-                                </TableView>
-                            </AnchorPane>
+    <center>
+        <VBox spacing="20.0">
+            <!-- Search Box -->
+            <HBox spacing="10.0" styleClass="search-box">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+                <TextField fx:id="searchField" promptText="%search.prompt" HBox.hgrow="ALWAYS" />
+                <Button fx:id="clearButton" text="%button.clear" />
+            </HBox>
 
-                            <AnchorPane>
-                                <Button fx:id="addButton" onAction="#AddLocation" text="Add" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
-                            </AnchorPane>
-                        </items>
-                    </SplitPane>
-                </VBox>
-            </items>
-        </SplitPane>
-    </children>
-</AnchorPane>
+            <!-- Locations Table -->
+            <TableView fx:id="locationsTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="%location.id" prefWidth="75.0" />
+                    <TableColumn fx:id="nameColumn" text="%location.name" prefWidth="150.0" />
+                    <TableColumn fx:id="addressColumn" text="%location.address" prefWidth="200.0" />
+                    <TableColumn fx:id="capacityColumn" text="%location.capacity" prefWidth="100.0" />
+                    <TableColumn fx:id="availabilityColumn" text="%location.availability" prefWidth="100.0" />
+                    <TableColumn fx:id="detailsColumn" text="%location.details" prefWidth="100.0" />
+                    <TableColumn fx:id="actionsColumn" text="%button.actions" prefWidth="100.0" />
+                </columns>
+            </TableView>
+
+            <!-- Action Bar -->
+            <HBox spacing="10.0" alignment="CENTER">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+                <Button fx:id="addButton" text="%location.add" styleClass="action-button" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

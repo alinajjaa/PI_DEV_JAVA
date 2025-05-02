@@ -6,6 +6,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.agritrace.entities.Service;
+import org.agritrace.services.LanguageManager;
 import org.agritrace.services.ServiceServices;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
@@ -42,7 +44,11 @@ public class Home {
     @FXML
     private Button servicesButton;
     @FXML
-    private Button LoccationsButton;
+    private Button locationsButton;
+    @FXML
+    private Button calendarButton;
+    @FXML
+    private Button logoutButton;
     @FXML
     private WebView locationPicker;
     @FXML
@@ -52,7 +58,7 @@ public class Home {
     @FXML
     private Button applyFilterButton;
     @FXML
-    private Button calendarButton;
+    private ComboBox<String> languageComboBox;
 
     private ServiceServices serviceServices;
     private ObservableList<Service> serviceList;
@@ -63,13 +69,19 @@ public class Home {
     private double selectedLat;
     private double selectedLng;
 
+    private LanguageManager languageManager;
+
     @FXML
     public void initialize() {
         serviceServices = new ServiceServices();
         serviceList = FXCollections.observableArrayList();
+        languageManager = LanguageManager.getInstance();
 
         // Set preferred width for the services container
         servicesContainer.setPrefWidth(900);  // Accommodate 3 cards of 280px width + gaps
+
+        initializeNavigation();
+        initializeLanguageSelector();
 
         // Initialize range selector
         setupRangeSelector();
@@ -83,17 +95,11 @@ public class Home {
         // Load services
         loadServices();
 
-        // Setup navigation
-        setupNavigation();
-
         // Clear button action
         clearButton.setOnAction(e -> clearSearch());
 
         // Apply filter button action
         applyFilterButton.setOnAction(e -> applyLocationFilter());
-
-        // Style the active nav button
-        homeButton.getStyleClass().add("active-nav-button");
 
         calendarButton.setOnAction(event -> {
             try {
@@ -110,6 +116,93 @@ public class Home {
                 showError("Calendar Error", "Could not open calendar view", e.getMessage());
             }
         });
+    }
+
+    private void initializeLanguageSelector() {
+        languageComboBox.getItems().addAll("English", "Français");
+        languageComboBox.setValue(languageManager.getCurrentLocale().getLanguage().equals("fr") ? "Français" : "English");
+        languageComboBox.setOnAction(event -> {
+            String selectedLanguage = languageComboBox.getValue();
+            String langCode = selectedLanguage.equals("English") ? "en" : "fr";
+            languageManager.setLanguage(langCode);
+            refreshView();
+        });
+    }
+
+    private void refreshView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home.fxml"));
+            loader.setResources(languageManager.getMessages());
+            Parent root = loader.load();
+            Scene scene = homeButton.getScene();
+            Stage stage = (Stage) homeButton.getScene().getWindow();
+            scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+            stage.setScene(scene);
+        } catch (IOException e) {
+            showErrorAlert("View Error", "Could not refresh view", e.getMessage());
+        }
+    }
+
+    private void initializeNavigation() {
+        // Set the home button as active since we're on the home page
+        homeButton.getStyleClass().add("active-nav-button");
+
+        servicesButton.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ServiceIndex.fxml"));
+                loader.setResources(languageManager.getMessages());
+                Parent root = loader.load();
+                Scene scene = servicesButton.getScene();
+                scene.setRoot(root);
+            } catch (IOException e) {
+                showErrorAlert("Navigation Error", "Could not navigate to Services", e.getMessage());
+            }
+        });
+
+        locationsButton.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationIndex.fxml"));
+                loader.setResources(languageManager.getMessages());
+                Parent root = loader.load();
+                Scene scene = locationsButton.getScene();
+                scene.setRoot(root);
+            } catch (IOException e) {
+                showErrorAlert("Navigation Error", "Could not navigate to Locations", e.getMessage());
+            }
+        });
+
+        calendarButton.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationCalendar.fxml"));
+                loader.setResources(languageManager.getMessages());
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.setTitle(languageManager.getMessage("calendar.title"));
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                showErrorAlert("Calendar Error", "Could not open calendar view", e.getMessage());
+            }
+        });
+
+        logoutButton.setOnAction(event -> handleLogout());
+    }
+
+    private void handleLogout() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+            loader.setResources(languageManager.getMessages());
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            showErrorAlert("Logout Error", "Could not navigate to Login page", e.getMessage());
+        }
     }
 
     private void setupLocationPicker() {
@@ -348,36 +441,6 @@ public class Home {
         }
     }
 
-    private void setupNavigation() {
-        servicesButton.setOnAction(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ServiceIndex.fxml"));
-                Parent root = loader.load();
-                
-                // Make sure to apply the stylesheet
-                root.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
-                
-                Stage stage = (Stage) servicesButton.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-        LoccationsButton.setOnAction(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationIndex.fxml"));
-                Parent root = loader.load();
-                Scene scene = LoccationsButton.getScene();
-                scene.setRoot(root);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @FXML
     private void clearSearch() {
         searchField.clear();
         selectedLat = 0;
@@ -452,6 +515,14 @@ public class Home {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return R * c; // Distance in kilometers
+    }
+
+    private void showErrorAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private void showError(String title, String header, String content) {

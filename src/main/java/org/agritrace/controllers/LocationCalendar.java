@@ -5,11 +5,18 @@ import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.calendarfx.view.CalendarView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.agritrace.entities.Location;
 import org.agritrace.entities.Service;
+import org.agritrace.services.LanguageManager;
 import org.agritrace.services.LocationServices;
 import org.agritrace.services.ServiceServices;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -30,18 +37,44 @@ public class LocationCalendar {
     private Button applyFilterButton;
     @FXML
     private Button clearFilterButton;
+    @FXML
+    private ComboBox<String> languageComboBox;
+    @FXML
+    private Button closeButton;
 
     private LocationServices locationServices;
     private ServiceServices serviceServices;
     private Calendar bookingsCalendar;
     private Integer filterUserId;
     private Service filterService;
-
+    private LanguageManager languageManager;
     @FXML
     public void initialize() {
         // Initialize services
         locationServices = new LocationServices();
         serviceServices = new ServiceServices();
+        languageManager = LanguageManager.getInstance();
+
+        // Setup language selector
+        languageComboBox.setItems(FXCollections.observableArrayList("English", "Français"));
+        languageComboBox.setValue(languageManager.getCurrentLocale().getLanguage().equals("fr") ? "Français" : "English");
+        
+        languageComboBox.setOnAction(e -> {
+            String selected = languageComboBox.getValue();
+            String lang = selected.equals("Français") ? "fr" : "en";
+            languageManager.setLanguage(lang);
+            
+            // Reload the current scene
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationCalendar.fxml"));
+                loader.setResources(languageManager.getMessages());
+                Parent root = loader.load();
+                Scene scene = closeButton.getScene();
+                scene.setRoot(root);
+            } catch (IOException ex) {
+                showError("Error", "Could not change language", ex.getMessage());
+            }
+        });
 
         // Setup calendar
         setupCalendar();
@@ -191,5 +224,19 @@ public class LocationCalendar {
         filterService = service;
         filterUserId = null;
         loadLocations();
+    }
+
+    private void showError(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void handleClose() {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 }

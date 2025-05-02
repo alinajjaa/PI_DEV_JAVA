@@ -5,8 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.agritrace.services.LanguageManager;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class MainApp extends Application {
 
@@ -17,21 +19,26 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ServiceIndex.fxml"));
+            // Initialize language manager
+            LanguageManager languageManager = LanguageManager.getInstance();
+            
+            // Load FXML with language resources
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationIndex.fxml"));
+            loader.setResources(languageManager.getMessages());
+            Parent root = loader.load();
             Scene scene = new Scene(root);
 
-            // Add your stylesheet
+            // Add stylesheet
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
             primaryStage.setResizable(true);
-            primaryStage.setWidth(1200); // Default width
-            primaryStage.setHeight(800); // Default height
+            primaryStage.setWidth(1200);
+            primaryStage.setHeight(800);
             primaryStage.setScene(scene);
 
-            primaryStage.setTitle("Service Index"); // Optional: Add a title for the stage
+            primaryStage.setTitle("Service Index");
             primaryStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

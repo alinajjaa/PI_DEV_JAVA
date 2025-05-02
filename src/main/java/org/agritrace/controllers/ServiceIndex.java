@@ -9,17 +9,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.agritrace.entities.Service;
+import org.agritrace.services.LanguageManager;
 import org.agritrace.services.ServiceServices;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ResourceBundle;
 
 public class ServiceIndex {
     @FXML
@@ -42,16 +43,7 @@ public class ServiceIndex {
     private TableColumn<Service, Void> actionColumn; // for buttons
 
     @FXML
-    private SplitPane splitPane;
-
-    @FXML
     private VBox sideNavBar;
-
-    @FXML
-    private AnchorPane tablePane;
-
-    @FXML
-    private SplitPane verticalSplitPane;
 
     @FXML
     private Button homeButton;
@@ -60,7 +52,7 @@ public class ServiceIndex {
     private Button servicesButton;
 
     @FXML
-    private Button LoccationsButton;
+    private Button locationsButton;
 
     @FXML
     private Button logoutButton;
@@ -77,9 +69,16 @@ public class ServiceIndex {
     @FXML
     private Button calendarButton;
 
+    @FXML
+    private ComboBox<String> languageComboBox;
+
+    @FXML
+    private Button addButton;
+
     private ObservableList<Service> serviceList = FXCollections.observableArrayList();
     private ServiceServices serviceServices = new ServiceServices();
     private FilteredList<Service> filteredServices;
+    private LanguageManager languageManager;
 
     // Column width definitions
     private enum ColumnWidth {
@@ -110,8 +109,30 @@ public class ServiceIndex {
 
     @FXML
     public void initialize() {
+        languageManager = LanguageManager.getInstance();
+        
+        // Setup language selector
+        languageComboBox.setItems(FXCollections.observableArrayList("English", "Français"));
+        languageComboBox.setValue(languageManager.getCurrentLocale().getLanguage().equals("fr") ? "Français" : "English");
+        
+        languageComboBox.setOnAction(e -> {
+            String selected = languageComboBox.getValue();
+            String lang = selected.equals("Français") ? "fr" : "en";
+            languageManager.setLanguage(lang);
+            
+            // Reload the current scene
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ServiceIndex.fxml"));
+                loader.setResources(languageManager.getMessages());
+                Parent root = loader.load();
+                Scene scene = homeButton.getScene();
+                scene.setRoot(root);
+            } catch (IOException ex) {
+                showErrorAlert("Error", "Could not change language", ex.getMessage());
+            }
+        });
+
         initializeColumns();
-        initializeSplitPanes();
         setupColumnWidths();
         setupActionColumn();
         setupSearch();
@@ -127,10 +148,11 @@ public class ServiceIndex {
         calendarButton.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationCalendar.fxml"));
+                loader.setResources(languageManager.getMessages());
                 Parent root = loader.load();
                 
                 Stage stage = new Stage();
-                stage.setTitle("Bookings Calendar");
+                stage.setTitle(languageManager.getMessage("calendar.title"));
                 Scene scene = new Scene(root);
                 scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
                 stage.setScene(scene);
@@ -139,6 +161,8 @@ public class ServiceIndex {
                 showErrorAlert("Calendar Error", "Could not open calendar view", e.getMessage());
             }
         });
+        
+        setupAddButton();
     }
 
     private void initializeColumns() {
@@ -150,21 +174,6 @@ public class ServiceIndex {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("adresse"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
-    }
-
-    private void initializeSplitPanes() {
-        // Set default divider positions
-        splitPane.setDividerPositions(0.20);
-        verticalSplitPane.setDividerPositions(0.8);
-
-        // Add listeners to enforce the divider positions
-        splitPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            splitPane.setDividerPositions(0.20);
-        });
-
-        verticalSplitPane.heightProperty().addListener((observable, oldValue, newValue) -> {
-            verticalSplitPane.setDividerPositions(0.8);
-        });
     }
 
     private void setupColumnWidths() {
@@ -258,70 +267,52 @@ public class ServiceIndex {
     }
 
     private void initializeNavigation() {
-        // Set the services button as active since we're on the services page
-        servicesButton.getStyleClass().add("active-nav-button");
-
-        homeButton.setOnAction(event -> navigateToHome());
-        servicesButton.setOnAction(event -> {
-            // Already on services page
-            event.consume();
+        homeButton.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home.fxml"));
+                loader.setResources(languageManager.getMessages());
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+                Stage stage = (Stage) homeButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                showErrorAlert("Navigation Error", "Could not navigate to Home", e.getMessage());
+            }
         });
-        LoccationsButton.setOnAction(event -> navigateToLocations());
+
+        locationsButton.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationIndex.fxml"));
+                loader.setResources(languageManager.getMessages());
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+                Stage stage = (Stage) locationsButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                showErrorAlert("Navigation Error", "Could not navigate to Locations", e.getMessage());
+            }
+        });
+
         logoutButton.setOnAction(event -> handleLogout());
     }
 
-    private void navigateToHome() {
+    private void handleLogout() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) homeButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            showErrorAlert("Navigation Error", "Could not navigate to Home page", e.getMessage());
-        }
-    }
-
-    private void navigateToLocations() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationIndex.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+            loader.setResources(languageManager.getMessages());
             Parent root = loader.load();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
-            Stage stage = (Stage) LoccationsButton.getScene().getWindow();
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
             stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
-            showErrorAlert("Navigation Error", "Could not navigate to Locations page", e.getMessage());
+            showErrorAlert("Logout Error", "Could not return to login", e.getMessage());
         }
-    }
-
-    private void handleLogout() {
-        // Show confirmation dialog
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout");
-        alert.setHeaderText("Are you sure you want to logout?");
-        alert.setContentText("You will be redirected to the login page.");
-
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                try {
-                    // Navigate to login page
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
-                    Parent root = loader.load();
-                    Stage stage = (Stage) logoutButton.getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                } catch (IOException e) {
-                    showErrorAlert("Logout Error", "Could not navigate to Login page", e.getMessage());
-                }
-            }
-        });
-    }
-
-    private void showErrorAlert(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 
     private void handleEdit(Service service) {
@@ -377,6 +368,35 @@ public class ServiceIndex {
         }
     }
 
+    private void setupAddButton() {
+        addButton.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddService.fxml"));
+                loader.setResources(languageManager.getMessages());
+                Parent root = loader.load();
+                AddService addServiceController = loader.getController();
+                addServiceController.setServiceIndexController(this);
+
+                Stage stage = new Stage();
+                stage.setTitle(languageManager.getMessage("service.add"));
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                showErrorAlert("Add Error", "Could not open add window", e.getMessage());
+            }
+        });
+    }
+
+    private void showErrorAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
     public void updateServiceInList(Service updatedService) {
         for (int i = 0; i < serviceList.size(); i++) {
             if (serviceList.get(i).getId() == updatedService.getId()) {
@@ -388,11 +408,8 @@ public class ServiceIndex {
     }
 
     public void refreshList() {
-        // Clear existing items
         serviceList.clear();
-        // Reload data from database
         serviceList.addAll(serviceServices.getAllData());
-        // Refresh the table view
         serviceTable.refresh();
     }
 
