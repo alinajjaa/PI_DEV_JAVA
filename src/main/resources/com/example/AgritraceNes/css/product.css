@@ -1,0 +1,180 @@
+/* Global Styling */
+* {
+    -fx-font-family: "Poppins", "Arial", sans-serif;
+}
+
+/* VBox Styling */
+VBox {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 15;
+    -fx-spacing: 12;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 10, 0, 0, 4);
+}
+
+/* Input Fields */
+.input-field TextField,
+.input-field DatePicker,
+.input-field ComboBox {
+    -fx-pref-width: 220;
+    -fx-pref-height: 35;
+    -fx-font-size: 16;
+    -fx-border-color: #28a745;
+    -fx-border-width: 2;
+    -fx-border-radius: 8;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-padding: 5;
+    -fx-background-insets: 0;
+}
+
+/* Input Hover & Focus */
+.input-field TextField:focused,
+.input-field DatePicker:focused,
+.input-field ComboBox:focused {
+    -fx-border-color: #218838;
+    -fx-effect: dropshadow(three-pass-box, rgba(40, 167, 69, 0.3), 10, 0, 0, 5);
+}
+
+/* Buttons */
+Button {
+    -fx-pref-height: 35;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #28a745;
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 5 15;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 6, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+/* Button Hover Effect */
+Button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #218838;
+    -fx-effect: dropshadow(three-pass-box, rgba(40, 167, 69, 0.4), 8, 0, 0, 4);
+}
+
+/* Labels */
+.label-style {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #28a745;
+}
+
+/* Table Styling */
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 8, 0, 0, 3);
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #28a745;
+    -fx-font-size: 17;
+    -fx-padding: 8;
+}
+
+/* Search Field */
+.search-field {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #28a745;
+    -fx-border-radius: 12;
+    -fx-padding: 10;
+    -fx-text-fill: #28a745;
+}
+
+.search-field .text-input {
+    -fx-font-size: 16;
+    -fx-prompt-text-fill: rgba(40, 167, 69, 0.7);
+}
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar .thumb {
+    -fx-background-color: linear-gradient(to bottom, #28a745, #218838);
+}
+
+/* Message Styling */
+.user-message, .coach-message {
+    -fx-text-fill: white;
+    -fx-padding: 10;
+    -fx-font-size: 17;
+    -fx-max-width: 340px;
+    -fx-wrap-text: true;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 6, 0, 0, 2);
+}
+
+.user-message {
+    -fx-background-color: #28a745;
+}
+
+.coach-message {
+    -fx-background-color: #fd7c2b;
+}
+
+/* TextArea Matching Height */
+TextArea {
+    -fx-pref-width: 220;
+    -fx-pref-height: 35;
+    -fx-font-size: 16;
+    -fx-border-radius: 8;
+    -fx-border-color: #28a745;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-padding: 5;
+}
+
+/* Adjusting ScrollPane Borders */
+.scroll-pane .scroll-bar .track,
+.scroll-pane .viewport,
+.scroll-pane .content,
+.scroll-pane .scroll-pane,
+.scroll-pane .scroll-bar,
+.scroll-pane .scroll-bar .increment-button,
+.scroll-pane .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+/* Chart styling */
+.custom-chart {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0.2, 0, 4);
+}
+
+/* Statistiques cards */
+.stat-card {
+    -fx-background-color: #ffffff;
+    -fx-padding: 25;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 6, 0.1, 0, 3);
+    -fx-alignment: center;
+}
+
+/* Titres */
+.stat-title {
+    -fx-font-size: 18px;
+    -fx-text-fill: #444444;
+}
+
+.stat-value {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2e7d32;
+}

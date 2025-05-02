@@ -1,0 +1,146 @@
+/* 🌿 Fond général */
+.main-background {
+    -fx-background-color: linear-gradient(to bottom right, #f9fbe7, #ffffff);
+}
+
+/* === Barre de recherche === */
+.search-bar {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a3d9a5;
+    -fx-border-width: 2px;
+    -fx-border-radius: 12px;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #1b4332;
+    -fx-effect: dropshadow(gaussian, rgba(163,217,165,0.2), 2, 0.2, 0.5, 0.5);
+}
+
+/* 📅 Date Picker & ComboBox */
+.date-picker, .filter-combo {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cfd8dc;
+    -fx-border-width: 2px;
+    -fx-border-radius: 12px;
+    -fx-padding: 6px 10px;
+    -fx-font-size: 13px;
+    -fx-text-fill: #2e7d32;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 2, 0, 0.5, 0.5);
+}
+
+
+
+/* Scroll transparent */
+.transparent-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+/* === Boutons === */
+.button {
+    -fx-background-color: linear-gradient(to right, #81c784, #4caf50);
+    -fx-background-radius: 12;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px;
+    -fx-padding: 6 12;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.1, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to right, #2e7d32, #1b5e20);
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+/* 📅 Calendrier */
+#btnCalendrier {
+    -fx-background-color: linear-gradient(to right, #66bb6a, #388e3c);
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-font-size: 13px;
+    -fx-padding: 8 14;
+    -fx-font-weight: 600;
+}
+
+/* 📄 Pagination */
+.pagination-button {
+    -fx-background-color: linear-gradient(to right, #a3d9a5, #4caf50);
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-font-size: 13px;
+    -fx-padding: 6 14;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.pagination-button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* 📊 Cartes événements */
+FlowPane .event-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 6, 0, 2, 2);
+    -fx-padding: 14px;
+    -fx-spacing: 8px;
+    -fx-pref-width: 260px;
+    -fx-cursor: hand;
+}
+
+/* 💡 Cartes suggestions */
+FlowPane .suggestion-card {
+    -fx-background-color: linear-gradient(to bottom right, #f0fdf4, #ffffff);
+    -fx-background-radius: 16px;
+    -fx-border-color: #c8e6c9;
+    -fx-border-width: 1px;
+    -fx-border-radius: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,128,0,0.04), 5, 0, 2, 2);
+    -fx-padding: 14px;
+    -fx-spacing: 8px;
+    -fx-pref-width: 260px;
+}
+
+/* 🏷️ Labels */
+.label, .page-label {
+    -fx-text-fill: #1b4332;
+    -fx-font-size: 15px;
+    -fx-font-weight: 500;
+    -fx-opacity: 0.97;
+    -fx-smooth: true;
+}
+
+/* 🔖 Badge statut */
+.status-badge {
+    -fx-background-radius: 8;
+    -fx-padding: 3 8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+.status-open {
+    -fx-background-color: #66bb6a;
+}
+.status-closed {
+    -fx-background-color: #ef5350;
+}
+.status-upcoming {
+    -fx-background-color: #ffa726;
+}
+
+/* 📐 Espacement général réduit */
+FlowPane, VBox, HBox {
+    -fx-spacing: 16;
+}
+.weather-box {
+    -fx-background-color: rgba(255,255,255,0.85); /* Plus opaque */
+    -fx-background-radius: 10;
+    -fx-padding: 8px 12px;
+    -fx-spacing: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 1, 1);
+}

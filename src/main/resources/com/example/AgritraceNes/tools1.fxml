@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="eventInterfaces" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="6000.0" prefWidth="1331.0" stylesheets="@css/product.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.AgritraceNes.Controllers.EvennementAdminController">
+    <children>
+        <VBox fx:id="EventsInterface" prefHeight="907.0" prefWidth="1331.0">
+            <children>
+                <Pane fx:id="UpperSection" prefHeight="215.0" prefWidth="1331.0" styleClass="UpperSection" stylesheets="@css/product.css">
+                    <children>
+                        <TextField layoutX="159.0" layoutY="41.0" prefHeight="37.0" prefWidth="265.0" styleClass="search-field" stylesheets="@css/product.css" />
+                        <Label layoutX="55.0" layoutY="41.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="115.0" styleClass="label-style" stylesheets="@css/product.css" text="Rechercher" />
+                        <Button layoutX="508.0" layoutY="35.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#GoToAddEventPagee" prefHeight="46.0" prefWidth="31.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css">
+                            <graphic>
+                                <ImageView fx:id="GoToAddPageBtn" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@icons/plus.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <ImageView fitHeight="22.0" fitWidth="31.0" layoutX="391.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/search.png" />
+                            </image>
+                        </ImageView>
+                        <Button layoutX="623.0" layoutY="34.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#GoToActivitesPagePagee" prefHeight="46.0" prefWidth="187.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css" text="Categories" />
+                        <Button layoutX="855.0" layoutY="36.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#GoToParticipantPagee" prefHeight="46.0" prefWidth="187.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css" text="Participants" />
+                        <Button layoutX="1090.0" layoutY="36.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleAfficherStatistiques" prefHeight="46.0" prefWidth="187.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css" text="Statistiques" />
+
+                    </children>
+                </Pane>
+                <Pane fx:id="ListContainer" prefHeight="694.0" prefWidth="1331.0" style="-fx-background-color: #00000;">
+                    <children>
+                        <Label layoutX="61.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="326.0" stylesheets="@css/product.css" text="Liste des évenements">
+                            <styleClass>
+                                <String fx:value="label-style" />
+                                <String fx:value="title" />
+                            </styleClass>
+                        </Label>
+                        <TableView fx:id="eventsTable" layoutX="37.0" layoutY="96.0" prefHeight="544.0" prefWidth="1217.0">
+                            <columns>
+                                <TableColumn fx:id="nameColumn" prefWidth="140.8000259399414" text="Nom" />
+                                <TableColumn fx:id="descriptionColumn" prefWidth="143.99996948242188" text="Description" />
+                                <TableColumn fx:id="dateDColumn" prefWidth="204.0" text="Date début" />
+                                <TableColumn fx:id="dateFColumn" prefWidth="114.4000244140625" text="Date fin" />
+                                <TableColumn fx:id="prixColumn" prefWidth="88.0" text="Prix (TN)" />
+                                <TableColumn fx:id="locationColumn" prefWidth="137.59991455078125" text="Lieu" />
+                                <TableColumn fx:id="placeColumn" prefWidth="103.20001220703125" text="Places dispo" />
+                                <TableColumn fx:id="actionsColumn" prefWidth="342.40020751953125" text="Actions">
+
+                                </TableColumn>
+
+                            </columns>
+                        </TableView>
+
+                    </children>
+                </Pane>
+            </children>
+        </VBox>
+        <Pane fx:id="AddEventPage" prefHeight="907.0" prefWidth="1331.0">
+            <children>
+                <VBox fx:id="AddEventCard" layoutX="445.0" layoutY="141.0" maxWidth="1361.0" prefHeight="466.0" prefWidth="390.0" styleClass="add-product-card">
+                    <children>
+                        <Label prefHeight="46.0" prefWidth="363.0" styleClass="title" text="  Ajouter un évenement" textAlignment="CENTER">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="31.0" />
+                            </font>
+                        </Label>
+                        <HBox prefHeight="39.0" prefWidth="444.0" spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="101.0" text="Nom : " />
+                                <TextField fx:id="nomEventInput" prefHeight="39.0" prefWidth="378.0" promptText="Entrez le nom de l'evenement .." />
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="39.0" prefWidth="444.0" spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="101.0" text="Nom : " />
+                                <TextField fx:id="descEventInput" prefHeight="39.0" prefWidth="378.0" promptText="Entrez la description de l'evenement .." />
+                            </children>
+                        </HBox>
+
+
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="107.0" text="Date début :" />
+                                <DatePicker fx:id="dateDebutInput" />
+                            </children>
+                        </HBox>
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="107.0" text="Date Fin :" />
+                                <DatePicker fx:id="dateFinInput" />
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="104.0" text="Prix : " />
+                                <TextField fx:id="prixEventInput" prefHeight="39.0" prefWidth="209.0" promptText="Tapez le prix.." />
+
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="104.0" text="Lieu : " />
+                                <TextField fx:id="lieuEventInput" prefHeight="39.0" prefWidth="209.0" promptText="Tapez le lieu.." />
+
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="104.0" text="Places disponibles : " />
+                                <TextField fx:id="placesEventInput" prefHeight="39.0" prefWidth="209.0" promptText="Entrez le nombre de places dispo.." />
+
+                            </children>
+                        </HBox>
+                        <HBox spacing="10" styleClass="input-field" />
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="104.0" text="Catégorie :" />
+                                <ComboBox fx:id="categorieComboBox" prefWidth="220.0" />
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="111.0" text="Image        " />
+                                <TextField fx:id="imageEventInput" promptText="Inserez votre image" />
+                                <Button fx:id="AddImageBtn" onAction="#handleChooseImage" prefHeight="21.0" prefWidth="31.0" text="+" />
+                            </children>
+                        </HBox>
+                        <HBox id="submitField" prefHeight="60.0" prefWidth="1290.0">
+                            <children>
+                                <Button fx:id="AddEventBtn" mnemonicParsing="false" onAction="#handleAddEvent" prefHeight="37.0" prefWidth="267.0" styleClass="orangebtn" text="Add">
+                                    <HBox.margin>
+                                        <Insets left="50.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <Button layoutX="30.0" layoutY="26.0" mnemonicParsing="false" onAction="#GoToEventPagee" prefHeight="56.0" prefWidth="40.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css">
+                    <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/back.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+        </Pane>
+        <Pane fx:id="UpdateEventPage" prefHeight="907.0" prefWidth="1331.0">
+            <children>
+                <VBox fx:id="UpdateProductCard" layoutX="445.0" layoutY="141.0" maxWidth="1361.0" prefHeight="466.0" prefWidth="390.0" styleClass="add-product-card">
+                    <children>
+                        <Label prefHeight="31.0" prefWidth="307.0" styleClass="title" text="Update the Event">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="31.0" />
+                            </font>
+                        </Label>
+
+                        <!-- Nom Event -->
+                        <HBox prefHeight="42.0" prefWidth="1231.0" spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="113.0" text="Nom:" />
+                                <TextField fx:id="nomEventUpdate" prefHeight="37.0" prefWidth="196.0" />
+                            </children>
+                        </HBox>
+
+                        <!-- Description -->
+                        <HBox prefHeight="121.0" prefWidth="350.0" spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="53.0" prefWidth="115.0" text="Description:" />
+                                <TextArea fx:id="descEventUpdate" prefHeight="58.0" prefWidth="258.0" />
+                            </children>
+                        </HBox>
+
+                        <!-- Date de début -->
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="111.0" text="Date début:" />
+                                <DatePicker fx:id="dateDebutUpdate" prefHeight="49.0" prefWidth="237.0" />
+                            </children>
+                        </HBox>
+
+                        <!-- Date de fin -->
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="111.0" text="Date fin:" />
+                                <DatePicker fx:id="dateFinUpdate" prefHeight="49.0" prefWidth="237.0" />
+                            </children>
+                        </HBox>
+
+                        <!-- Lieu -->
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="111.0" text="Lieu:" />
+                                <TextField fx:id="lieuEventUpdate" prefHeight="37.0" prefWidth="196.0" />
+                            </children>
+                        </HBox>
+
+                        <!-- Prix -->
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="111.0" text="Prix:" />
+                                <TextField fx:id="prixEventUpdate" prefHeight="37.0" prefWidth="196.0" />
+                            </children>
+                        </HBox>
+
+                        <!-- Nombre de places -->
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="111.0" text="Places:" />
+                                <TextField fx:id="placesEventUpdate" prefHeight="37.0" prefWidth="196.0" />
+                            </children>
+                        </HBox>
+
+                        <!-- Image -->
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="111.0" text="Image:" />
+                                <HBox spacing="5">
+                                    <TextField fx:id="imageEventUpdate" />
+                                    <Button prefHeight="37.0" prefWidth="16.0" text="+" />
+                                </HBox>
+                            </children>
+                        </HBox>
+
+                        <!-- Catégorie -->
+                        <HBox spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="111.0" text="Catégorie:" />
+                                <ComboBox fx:id="categorieComboUpdate" prefHeight="37.0" prefWidth="196.0" />
+                            </children>
+                        </HBox>
+
+                        <!-- Bouton de mise à jour -->
+                        <HBox id="submitField" prefHeight="60.0" prefWidth="1290.0">
+                            <children>
+                                <Button fx:id="UpdateEvent" mnemonicParsing="false" onAction="#handleSubmitUpdateEvent" prefHeight="46.0" prefWidth="166.0" styleClass="orangebtn" text="Update">
+                                    <HBox.margin>
+                                        <Insets left="50.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <!-- Bouton retour -->
+                <Button layoutX="30.0" layoutY="26.0" mnemonicParsing="false" onAction="#GoToEventPagee" prefHeight="56.0" prefWidth="40.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css">
+                    <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/back.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+        </Pane>
+
+        <VBox fx:id="ActivitesPage" prefHeight="907.0" prefWidth="1331.0">
+            <children>
+                <Pane fx:id="UpperSection11" prefHeight="215.0" prefWidth="1331.0" styleClass="UpperSection" stylesheets="@css/product.css">
+                    <children>
+                        <TextField layoutX="159.0" layoutY="41.0" prefHeight="37.0" prefWidth="265.0" styleClass="search-field" stylesheets="@css/product.css" />
+                        <Label layoutX="90.0" layoutY="41.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="80.0" styleClass="label-style" stylesheets="@css/product.css" text="Search" />
+                        <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="390.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/search.png" />
+                            </image>
+                        </ImageView>
+                        <Button layoutX="524.0" layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#GoToEventPagee" prefHeight="46.0" prefWidth="187.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css" text="Events Page" />
+                        <Button layoutX="469.0" layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#GoToAddActivitesPagePagee" prefHeight="46.0" prefWidth="31.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css">
+                            <graphic>
+                                <ImageView fx:id="GoToAddPageBtn1" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@icons/plus.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                </Pane>
+                <Pane fx:id="ListContainer11" prefHeight="694.0" prefWidth="1331.0" style="-fx-background-color: #00000;">
+                    <children>
+                        <Label layoutX="61.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="347.0" stylesheets="@css/product.css" text="Categories List ">
+                            <styleClass>
+                                <String fx:value="label-style" />
+                                <String fx:value="title" />
+                            </styleClass>
+                        </Label>
+                        <TableView fx:id="CategoriesTableView" layoutX="69.0" layoutY="102.0" prefHeight="404.0" prefWidth="648.0" stylesheets="@css/product.css">
+                            <columns>
+                                <TableColumn fx:id="idAvisColumn" prefWidth="80.0" text="Id" />
+                                <TableColumn fx:id="ideventcolumnnA" prefWidth="296.8000183105469" text="Category Name" />
+                                <TableColumn fx:id="actionsCategorieColumn" prefWidth="269.60003662109375" text="Actions" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </Pane>
+
+            </children>
+        </VBox>
+
+        <VBox fx:id="ParticipantsPage" prefHeight="907.0" prefWidth="1331.0">
+            <children>
+                <Pane fx:id="UpperSection1" prefHeight="215.0" prefWidth="1331.0" styleClass="UpperSection" stylesheets="@css/product.css">
+                    <children>
+                        <TextField layoutX="159.0" layoutY="41.0" prefHeight="37.0" prefWidth="265.0" styleClass="search-field" stylesheets="@css/product.css" />
+                        <Label layoutX="90.0" layoutY="41.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="80.0" styleClass="label-style" stylesheets="@css/product.css" text="Searsh" />
+                        <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="394.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/search.png" />
+                            </image>
+                        </ImageView>
+                        <Button layoutX="557.0" layoutY="38.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#GoToEventPagee" prefHeight="46.0" prefWidth="187.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css" text="Events Page">
+                            <graphic>
+                                <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@icons/message.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                </Pane>
+                <Pane fx:id="ListContainer1" prefHeight="694.0" prefWidth="1331.0" style="-fx-background-color: #0000;">
+                    <children>
+                        <Label layoutX="61.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="347.0" stylesheets="@css/product.css" text="Participants List ">
+                            <styleClass>
+                                <String fx:value="label-style" />
+                                <String fx:value="title" />
+                            </styleClass>
+                        </Label>
+                        <TableView fx:id="participantsTableView" layoutX="42.0" layoutY="96.0" prefHeight="423.0" prefWidth="861.0" stylesheets="@css/product.css">
+                            <columns>
+                                <TableColumn fx:id="idColumnParticipants" prefWidth="75.0" text="Id" />
+                                <TableColumn fx:id="ideventcolumnn" prefWidth="144.79995727539062" text="Evennement" />
+                                <TableColumn fx:id="iduserrColumn" prefWidth="112.0" text="Client" />
+                                <TableColumn fx:id="dateColumnP" prefWidth="243.199951171875" text="Date" />
+                                <TableColumn fx:id="actionsColumnP" prefWidth="285.0" text="Actions" />
+
+                            </columns>
+                        </TableView>
+                    </children>
+                </Pane>
+            </children>
+        </VBox>
+        <Pane fx:id="ADDAcitivitesPage" prefHeight="907.0" prefWidth="1331.0">
+            <children>
+                <VBox fx:id="AddEventCard11" layoutX="445.0" layoutY="141.0" maxWidth="1361.0" prefHeight="466.0" prefWidth="390.0" styleClass="add-product-card">
+                    <children>
+                        <Label prefHeight="46.0" prefWidth="363.0" styleClass="title" text="  Ajouter une Categorie" textAlignment="CENTER">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="31.0" />
+                            </font>
+                        </Label>
+                        <HBox prefHeight="39.0" prefWidth="444.0" spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="101.0" text="Nom : " />
+                                <TextField fx:id="nomCategorieInput" prefHeight="39.0" prefWidth="378.0" promptText="Tapez le nom .." />
+                            </children>
+                        </HBox>
+
+
+
+                        <HBox id="submitField" prefHeight="60.0" prefWidth="1290.0">
+                            <children>
+                                <Button fx:id="AddEventBtn11" mnemonicParsing="false" onAction="#handleAddCategorie" prefHeight="37.0" prefWidth="267.0" styleClass="orangebtn" text="Add">
+                                    <HBox.margin>
+                                        <Insets left="50.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <Button layoutX="30.0" layoutY="26.0" mnemonicParsing="false" onAction="#GoToActivitesPagePagee" prefHeight="56.0" prefWidth="40.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css">
+                    <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/back.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+        </Pane>
+        <Pane fx:id="UpdateAcitivitesPage" prefHeight="907.0" prefWidth="1331.0">
+            <children>
+                <VBox fx:id="AddEventCard1" layoutX="445.0" layoutY="141.0" maxWidth="1361.0" prefHeight="453.0" prefWidth="390.0" styleClass="add-product-card">
+                    <children>
+                        <Label prefHeight="46.0" prefWidth="363.0" styleClass="title" text="  Modifier une Categorie" textAlignment="CENTER">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="31.0" />
+                            </font>
+                        </Label>
+                        <HBox prefHeight="39.0" prefWidth="444.0" spacing="10" styleClass="input-field">
+                            <children>
+                                <Label prefHeight="22.0" prefWidth="101.0" text="Nom : " />
+                                <TextField fx:id="nomCategorieInputU" prefHeight="39.0" prefWidth="378.0" promptText="Tapez le nom .." />
+                            </children>
+                        </HBox>
+                        <HBox spacing="10" styleClass="input-field" />
+                        <HBox spacing="10" styleClass="input-field" />
+                        <HBox spacing="10" styleClass="input-field" />
+                        <HBox spacing="10" styleClass="input-field" />
+                        <HBox id="submitField" prefHeight="60.0" prefWidth="1290.0">
+                            <children>
+                                <Button fx:id="AddEventBtn1" mnemonicParsing="false" onAction="#handleSubmitUpdate" prefHeight="38.0" prefWidth="887.0" styleClass="orangebtn" text="Update" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <Button layoutX="30.0" layoutY="26.0" mnemonicParsing="false" onAction="#GoToActivitesPagePagee" prefHeight="56.0" prefWidth="40.0" styleClass="UpperSectionBtn" stylesheets="@css/product.css">
+                    <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/back.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+        </Pane>
+    </children>
+</VBox>

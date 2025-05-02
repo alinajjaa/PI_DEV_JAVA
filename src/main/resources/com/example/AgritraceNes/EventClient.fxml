@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.AgritraceNes.Controllers.EventClientController"
+            stylesheets="@css/event.css"
+            prefWidth="1000" prefHeight="700"
+            styleClass="main-background">
+
+    <!-- Weather Box (haut droit) -->
+    <HBox fx:id="weatherBox"
+          spacing="15"
+          alignment="CENTER_RIGHT"
+          AnchorPane.topAnchor="10"
+          AnchorPane.rightAnchor="20"
+          styleClass="weather-box">
+        <Label fx:id="weatherLocation" text="Météo: Sélectionnez un événement" />
+        <ImageView fx:id="weatherIcon" fitWidth="40" fitHeight="40" />
+        <Label fx:id="weatherTemp" text="" />
+        <Label fx:id="weatherDesc" text="" />
+    </HBox>
+
+    <!-- Recherche + Filtres -->
+    <HBox spacing="20"
+          alignment="CENTER_LEFT"
+          styleClass="toolbar"
+          AnchorPane.topAnchor="60"
+          AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20">
+        <TextField fx:id="txtRecherche"
+                   promptText="🔍 Rechercher un événement..."
+                   styleClass="search-bar"
+                   HBox.hgrow="ALWAYS"/>
+        <DatePicker fx:id="dateDebutFiltre" promptText="Date début" styleClass="date-picker"/>
+        <DatePicker fx:id="dateFinFiltre" promptText="Date fin" styleClass="date-picker"/>
+        <ComboBox fx:id="comboBoxStatut" promptText="Statut" styleClass="filter-combo"/>
+        <Button fx:id="btnCalendrier" text="Calendrier" onAction="#ouvrirCalendrier"/>
+    </HBox>
+
+    <!-- Scroll des événements -->
+    <ScrollPane fitToWidth="true"
+                fitToHeight="true"
+                AnchorPane.topAnchor="110"
+                AnchorPane.bottomAnchor="170"
+                AnchorPane.leftAnchor="20"
+                AnchorPane.rightAnchor="20"
+                hbarPolicy="NEVER"
+                vbarPolicy="AS_NEEDED"
+                styleClass="transparent-scroll">
+        <FlowPane fx:id="eventCardContainer"
+                  hgap="24" vgap="24"
+                  prefWrapLength="950"
+                  alignment="TOP_CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+        </FlowPane>
+    </ScrollPane>
+
+    <!-- Suggestions (fixe, hors scroll) -->
+    <VBox spacing="15"
+          alignment="TOP_LEFT"
+          AnchorPane.bottomAnchor="90"
+          AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20">
+
+        <FlowPane fx:id="suggestedEventContainer"
+                  hgap="24" vgap="24"
+                  prefWrapLength="950"
+                  alignment="TOP_LEFT"/>
+    </VBox>
+
+    <!-- Pagination -->
+    <HBox spacing="20"
+          alignment="CENTER"
+          styleClass="pagination-bar"
+          AnchorPane.bottomAnchor="20"
+          AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0">
+        <Button fx:id="btnPrecedent" text="← Précédent" styleClass="pagination-button"/>
+        <Label fx:id="lblPage" text="Page 1" styleClass="page-label"/>
+        <Button fx:id="btnSuivant" text="Suivant →" styleClass="pagination-button"/>
+    </HBox>
+
+</AnchorPane>

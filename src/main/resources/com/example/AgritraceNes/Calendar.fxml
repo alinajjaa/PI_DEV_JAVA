@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.net.URL?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.AgritraceNes.Controllers.CalendarController"
+
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox alignment="CENTER" spacing="10" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
+        <Label fx:id="titleLabel" text="Calendrier des Événements" styleClass="title-label"/>
+        <HBox alignment="CENTER" spacing="20">
+            <Button fx:id="prevMonthButton" text="Previous" onAction="#showPreviousMonth" styleClass="nav-button"/>
+            <Label fx:id="monthLabel" styleClass="month-label"/>
+            <Button fx:id="nextMonthButton" text="Next" onAction="#showNextMonth" styleClass="nav-button"/>
+        </HBox>
+        <GridPane fx:id="calendarGrid" hgap="5" vgap="5" styleClass="calendar-grid" maxWidth="400.0" alignment="CENTER"/>
+    </VBox>
+    <stylesheets>
+        <URL value="@/calendar.css"/>
+    </stylesheets>
+</AnchorPane>
