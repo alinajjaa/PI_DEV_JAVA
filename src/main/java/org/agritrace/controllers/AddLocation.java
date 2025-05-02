@@ -2,7 +2,6 @@ package org.agritrace.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.agritrace.entities.Location;
 import org.agritrace.entities.Service;
@@ -13,10 +12,9 @@ import javafx.collections.ObservableList;
 import javafx.util.StringConverter;
 
 import java.time.LocalDate;
-import com.calendarfx.view.CalendarView;
-import com.calendarfx.model.CalendarSource;
-import com.calendarfx.model.Entry;
-import com.calendarfx.view.CalendarView;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AddLocation {
 
@@ -44,18 +42,15 @@ public class AddLocation {
     @FXML
     private Button cancelButton;
 
-    @FXML
-    private AnchorPane calendarPane;
-
     private LocationServices locationServices = new LocationServices();
     private ServiceServices serviceServices = new ServiceServices();
     private LocationIndex locationIndexController;
     private Location locationToEdit;
     private boolean isEditMode = false;
+    private Stage stage;
 
     @FXML
     public void initialize() {
-        // Load services into combo box
         loadServices();
 
         // Add listeners for real-time validation
@@ -82,30 +77,6 @@ public class AddLocation {
         prixTotalField.setTooltip(new Tooltip("Enter total price (numeric value)"));
         dateDebutPicker.setTooltip(new Tooltip("Select start date"));
         dateFinPicker.setTooltip(new Tooltip("Select end date"));
-
-        // --- CalendarFX Integration ---
-        com.calendarfx.view.CalendarView calendarView = new com.calendarfx.view.CalendarView();
-        com.calendarfx.model.Calendar reservationsCalendar = new com.calendarfx.model.Calendar("Locations");
-        reservationsCalendar.setStyle(com.calendarfx.model.Calendar.Style.STYLE1);
-
-        // Fetch all Location reservations
-        java.util.List<org.agritrace.entities.Location> locations = locationServices.getAllData();
-        for (org.agritrace.entities.Location loc : locations) {
-            com.calendarfx.model.Entry<?> entry = new com.calendarfx.model.Entry<>(
-                "Location #" + loc.getId()
-            );
-            // Use start and end dates (all-day events)
-            entry.setInterval(loc.getDateDebut(), loc.getDateFin().plusDays(1));
-            reservationsCalendar.addEntry(entry);
-        }
-        com.calendarfx.model.CalendarSource source = new com.calendarfx.model.CalendarSource("All Locations");
-        source.getCalendars().add(reservationsCalendar);
-        calendarView.getCalendarSources().add(source);
-        calendarPane.getChildren().add(calendarView);
-        AnchorPane.setTopAnchor(calendarView, 0.0);
-        AnchorPane.setRightAnchor(calendarView, 0.0);
-        AnchorPane.setBottomAnchor(calendarView, 0.0);
-        AnchorPane.setLeftAnchor(calendarView, 0.0);
     }
 
     private void loadServices() {
@@ -115,7 +86,7 @@ public class AddLocation {
         serviceComboBox.setConverter(new StringConverter<Service>() {
             @Override
             public String toString(Service service) {
-                return service != null ? service.getNom() + " - " + service.getType() : "";
+                return service != null ? service.getNom() + " - #" + service.getId() : "";
             }
 
             @Override
@@ -130,6 +101,47 @@ public class AddLocation {
                 prixTotalField.setText(String.valueOf(newVal.getPrix()));
             }
         });
+    }
+
+    @FXML
+    private void handleSave() {
+        if (!validateInput()) {
+            return;
+        }
+
+        Service selectedService = serviceComboBox.getValue();
+        LocalDate startDate = dateDebutPicker.getValue();
+        LocalDate endDate = dateFinPicker.getValue();
+
+        // Check for availability
+        if (!isTimeSlotAvailable(selectedService.getId(), startDate, endDate)) {
+            return;
+        }
+
+        try {
+            Location location = new Location();
+            location.setServiceId(selectedService.getId());
+            location.setIdUser(Integer.parseInt(userIdField.getText().trim()));
+            location.setDetails(detailsField.getText().trim());
+            location.setPrixTotal(Double.parseDouble(prixTotalField.getText().trim()));
+            location.setDateDebut(startDate);
+            location.setDateFin(endDate);
+
+            if (isEditMode) {
+                location.setId(locationToEdit.getId());
+                locationServices.updateEntity(location, locationToEdit.getId());
+                locationIndexController.updateLocationInList(location);
+            } else {
+                locationServices.addEntity(location);
+                locationIndexController.refreshList();
+            }
+
+            // Close the window on success
+            ((Stage) saveButton.getScene().getWindow()).close();
+
+        } catch (Exception e) {
+            showErrorAlert("Error", "An error occurred: " + e.getMessage());
+        }
     }
 
     private boolean validateInput() {
@@ -202,6 +214,49 @@ public class AddLocation {
         return true;
     }
 
+    private boolean isTimeSlotAvailable(int serviceId, LocalDate startDate, LocalDate endDate) {
+        // Get all existing bookings for this service
+        List<Location> existingBookings = locationServices.getAllData().stream()
+            .filter(loc -> loc.getServiceId() == serviceId)
+            .collect(Collectors.toList());
+
+        // Check for any overlapping bookings
+        for (Location booking : existingBookings) {
+            // Skip the current booking if we're in edit mode
+            if (isEditMode && booking.getId() == locationToEdit.getId()) {
+                continue;
+            }
+            
+            // Check if the new booking overlaps with any existing booking
+            boolean overlaps = !(endDate.isBefore(booking.getDateDebut()) || 
+                               startDate.isAfter(booking.getDateFin()));
+            
+            if (overlaps) {
+                // Find the actual overlapping period
+                LocalDate overlapStart = startDate.isAfter(booking.getDateDebut()) ? startDate : booking.getDateDebut();
+                LocalDate overlapEnd = endDate.isBefore(booking.getDateFin()) ? endDate : booking.getDateFin();
+                
+                // Get the service name
+                Service service = serviceServices.getAllData().stream()
+                    .filter(s -> s.getId() == serviceId)
+                    .findFirst()
+                    .orElse(null);
+                String serviceName = service != null ? service.getNom() : "Service #" + serviceId;
+                
+                // Show error with specific overlap information
+                showErrorAlert("Booking Error", String.format(
+                    "%s is already booked during this period.\nConflicting booking: %s to %s",
+                    serviceName,
+                    overlapStart.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                    overlapEnd.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                ));
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -216,40 +271,6 @@ public class AddLocation {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
-    }
-
-    @FXML
-    private void handleSave() {
-        if (!validateInput()) {
-            return;
-        }
-
-        try {
-            Service selectedService = serviceComboBox.getValue();
-            Location location = new Location(
-                selectedService.getId(),
-                Integer.parseInt(userIdField.getText().trim()),
-                detailsField.getText().trim(),
-                Double.parseDouble(prixTotalField.getText().trim()),
-                dateDebutPicker.getValue(),
-                dateFinPicker.getValue()
-            );
-
-            if (isEditMode) {
-                location.setId(locationToEdit.getId());
-                locationServices.updateEntity(location, locationToEdit.getId());
-                locationIndexController.updateLocationInList(location);
-            } else {
-                locationServices.addEntity(location);
-                locationIndexController.refreshList();
-            }
-
-            // Close the window on success
-            ((Stage) saveButton.getScene().getWindow()).close();
-
-        } catch (Exception e) {
-            showErrorAlert("Error", "An error occurred: " + e.getMessage());
-        }
     }
 
     @FXML

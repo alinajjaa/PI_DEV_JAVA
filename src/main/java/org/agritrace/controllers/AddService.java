@@ -7,11 +7,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Properties;
 import netscape.javascript.JSObject;
 import org.agritrace.entities.Service;
 import org.agritrace.services.ServiceServices;
+import org.agritrace.services.S3Service;
+import software.amazon.awssdk.regions.Region;
 
 /**
  * Controller for the AddService form.
@@ -39,10 +45,17 @@ public class AddService {
     @FXML
     private WebView mapWebView;
 
+    @FXML
+    private Button uploadImageButton;
+
     private boolean editMode = false;
     private Service serviceToEdit = null;
     private ServiceIndex serviceIndexController;
     private String addressToInject = null;
+    private File selectedImageFile;
+    private String existingImageKey;  // Store the existing image key
+    private String existingAddress;  // Store the existing address
+    private S3Service s3Service;
 
     /**
      * Initializes the form with default values and validation.
@@ -68,18 +81,79 @@ public class AddService {
         tf_status.setTooltip(new Tooltip("Select service status"));
 
         WebEngine webEngine = mapWebView.getEngine();
-        webEngine.load(getClass().getResource("/google_maps_picker.html").toExternalForm());
+        String htmlContent = getClass().getResource("/google_maps_picker.html").toExternalForm();
+        webEngine.load(htmlContent);
+
+        // Set up the bridge between Java and JavaScript
         webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-            if (newState == Worker.State.SUCCEEDED && addressToInject != null) {
-                // addressToInject format: country,city;lat;lng
-                String adresse = addressToInject;
-                String[] parts = adresse.split(";");
-                String location = parts[0];
-                String lat = parts.length > 1 ? parts[1] : "";
-                String lng = parts.length > 2 ? parts[2] : "";
-                webEngine.executeScript(
-                    "setAddressFromJava('" + adresse.replace("'", "\\'") + "', '" + location.replace("'", "\\'") + "', '" + lat + "', '" + lng + "');"
-                );
+            if (newState == Worker.State.SUCCEEDED) {
+                JSObject window = (JSObject) webEngine.executeScript("window");
+                window.setMember("java", new JavaScriptBridge());
+                window.setMember("javaCallback", new LocationCallback());
+                
+                // If we're in edit mode, set the saved address
+                if (editMode && serviceToEdit != null && serviceToEdit.getAdresse() != null) {
+                    webEngine.executeScript("setAddressFromJava('" + serviceToEdit.getAdresse() + "')");
+                }
+            }
+        });
+        
+        // If we're in edit mode, populate the fields
+        if (editMode && serviceToEdit != null) {
+            tf_nom.setText(serviceToEdit.getNom());
+            tf_type.setText(serviceToEdit.getType());
+            tf_desc.setText(serviceToEdit.getDescription());
+            tf_status.setValue(serviceToEdit.getStatus());
+            tf_prix.setText(String.valueOf(serviceToEdit.getPrix()));
+            addressToInject = serviceToEdit.getAdresse();
+        }
+
+        initializeS3Service();
+        setupImageUpload();
+    }
+
+    // Bridge class for JavaScript to Java communication
+    public class JavaScriptBridge {
+        public void onAddressSelected(String address) {
+            addressToInject = address;
+        }
+    }
+
+    // Callback for location selection
+    public class LocationCallback {
+        public void onLocationSelected(double lat, double lng) {
+            // Store coordinates if needed
+        }
+    }
+
+    private void initializeS3Service() {
+        try {
+            Properties awsProps = new Properties();
+            awsProps.load(getClass().getResourceAsStream("/aws.properties"));
+
+            s3Service = new S3Service(
+                awsProps.getProperty("aws.access.key"),
+                awsProps.getProperty("aws.secret.key"),
+                awsProps.getProperty("aws.bucket.name"),
+                Region.of(awsProps.getProperty("aws.region"))
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle error appropriately
+        }
+    }
+
+    private void setupImageUpload() {
+        uploadImageButton.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+            );
+            
+            File file = fileChooser.showOpenDialog(uploadImageButton.getScene().getWindow());
+            if (file != null) {
+                selectedImageFile = file;
+                uploadImageButton.setText(file.getName());
             }
         });
     }
@@ -178,16 +252,38 @@ public class AddService {
         }
 
         try {
-            String nom = tf_nom.getText().trim();
-            String type = tf_type.getText().trim();
-            String description = tf_desc.getText().trim();
-            String adresse = getAddressFromMap();
-            String status = tf_status.getValue();
-            int prix = Integer.parseInt(tf_prix.getText().trim());
-            String image = "default.png";
-            LocalDateTime updatedAt = LocalDateTime.now();
+            Service service = new Service();
+            service.setNom(tf_nom.getText());
+            service.setType(tf_type.getText());
+            service.setDescription(tf_desc.getText());
+            service.setStatus(tf_status.getValue());
+            service.setPrix(Integer.parseInt(tf_prix.getText().trim()));  // Parse as int instead of double
+            
+            // Handle address
+            if (addressToInject != null) {
+                service.setAdresse(addressToInject);
+            } else if (editMode && existingAddress != null) {
+                service.setAdresse(existingAddress);
+            }
 
-            Service service = new Service(nom, type, description, prix, status, adresse, image, updatedAt);
+            // Handle image
+            String image = "default.png";
+            if (selectedImageFile != null) {
+                try {
+                    // S3Service returns just the key, not the full URL
+                    image = s3Service.uploadFile(selectedImageFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+            } else if (editMode && existingImageKey != null) {
+                // Keep existing image if no new image was selected
+                image = existingImageKey;
+            }
+            service.setImage(image);
+
+            LocalDateTime updatedAt = LocalDateTime.now();
+            service.setUpdatedAt(updatedAt);
 
             ServiceServices ss = new ServiceServices();
             if (editMode && serviceToEdit != null) {
@@ -224,6 +320,8 @@ public class AddService {
     public void setEditMode(Service service) {
         this.serviceToEdit = service;
         this.editMode = true;
+        this.existingImageKey = service.getImage();  // Save existing image key
+        this.existingAddress = service.getAdresse();  // Save existing address
         populateFields(service);
         btnajout.setText("Update"); // Change button text for edit mode
     }

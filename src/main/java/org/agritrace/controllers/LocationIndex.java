@@ -64,6 +64,9 @@ public class LocationIndex {
     private Button logoutButton;
 
     @FXML
+    private Button calendarButton;
+
+    @FXML
     private VBox sideNavBar;
 
     @FXML
@@ -120,6 +123,22 @@ public class LocationIndex {
         loadTableData();
         initializeNavigation();
         clearButton.setOnAction(e -> searchField.clear());
+        
+        calendarButton.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationCalendar.fxml"));
+                Parent root = loader.load();
+                
+                Stage stage = new Stage();
+                stage.setTitle("Bookings Calendar");
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                showError("Calendar Error", "Could not open calendar view", e.getMessage());
+            }
+        });
     }
 
     private void initializeColumns() {
@@ -326,6 +345,14 @@ public class LocationIndex {
     }
 
     private void showErrorAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private void showError(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);

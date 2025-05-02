@@ -74,6 +74,9 @@ public class ServiceIndex {
     @FXML
     private Button clearButton;
 
+    @FXML
+    private Button calendarButton;
+
     private ObservableList<Service> serviceList = FXCollections.observableArrayList();
     private ServiceServices serviceServices = new ServiceServices();
     private FilteredList<Service> filteredServices;
@@ -110,7 +113,7 @@ public class ServiceIndex {
         initializeColumns();
         initializeSplitPanes();
         setupColumnWidths();
-        initializeActionColumn();
+        setupActionColumn();
         setupSearch();
         loadTableData();
         initializeNavigation();
@@ -119,6 +122,22 @@ public class ServiceIndex {
         clearButton.setOnAction(e -> {
             searchField.clear();
             filterStatus.setValue("All");
+        });
+
+        calendarButton.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationCalendar.fxml"));
+                Parent root = loader.load();
+                
+                Stage stage = new Stage();
+                stage.setTitle("Bookings Calendar");
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                showErrorAlert("Calendar Error", "Could not open calendar view", e.getMessage());
+            }
         });
     }
 
@@ -161,13 +180,19 @@ public class ServiceIndex {
         bindColumnWidth(actionColumn, ColumnWidth.ACTION);
     }
 
-    private void initializeActionColumn() {
-        actionColumn.setCellFactory(column -> new TableCell<>() {
+    private void setupActionColumn() {
+        actionColumn.setCellFactory(param -> new TableCell<>() {
+            private final HBox buttons = new HBox(5);
             private final Button editButton = new Button("Edit");
             private final Button deleteButton = new Button("Delete");
-            private final HBox buttons = new HBox(5, editButton, deleteButton);
+            private final Button calendarButton = new Button("Calendar");
 
             {
+                buttons.getChildren().addAll(editButton, deleteButton, calendarButton);
+                editButton.getStyleClass().add("edit-button");
+                deleteButton.getStyleClass().add("delete-button");
+                calendarButton.getStyleClass().add("calendar-button");
+
                 editButton.setOnAction(event -> {
                     Service service = getTableView().getItems().get(getIndex());
                     handleEdit(service);
@@ -177,10 +202,15 @@ public class ServiceIndex {
                     Service service = getTableView().getItems().get(getIndex());
                     handleDelete(service);
                 });
+
+                calendarButton.setOnAction(event -> {
+                    Service service = getTableView().getItems().get(getIndex());
+                    showCalendar(service);
+                });
             }
 
             @Override
-            public void updateItem(Void item, boolean empty) {
+            protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 setGraphic(empty ? null : buttons);
             }
@@ -326,6 +356,25 @@ public class ServiceIndex {
                 serviceList.remove(service);
             }
         });
+    }
+
+    private void showCalendar(Service service) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/LocationCalendar.fxml"));
+            Parent root = loader.load();
+            
+            LocationCalendar calendarController = loader.getController();
+            calendarController.showServiceBookings(service);
+            
+            Stage stage = new Stage();
+            stage.setTitle("Bookings Calendar - " + service.getNom());
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            showErrorAlert("Calendar Error", "Could not open calendar view", e.getMessage());
+        }
     }
 
     public void updateServiceInList(Service updatedService) {

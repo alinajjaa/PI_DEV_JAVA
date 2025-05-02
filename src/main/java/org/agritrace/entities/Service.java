@@ -27,8 +27,19 @@ public class Service {
         this.image = image;
     }
 
-    public Service( String nom, String type, String description, int prix,
-                   String status, String adresse, String image, LocalDateTime updatedAt) {
+    public Service(int id, String nom, String type, String description, int prix, String status, String adresse, String image, LocalDateTime updatedAt) {
+        this.id = id;
+        this.nom = nom;
+        this.type = type;
+        this.description = description;
+        this.prix = prix;
+        this.status = status;
+        this.adresse = adresse;
+        this.image = image;
+        this.updatedAt = updatedAt;
+    }
+
+    public Service(String nom, String type, String description, int prix, String status, String adresse, String image, LocalDateTime updatedAt) {
         this.nom = nom;
         this.type = type;
         this.description = description;

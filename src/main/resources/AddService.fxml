@@ -42,13 +42,17 @@
                 <Label styleClass="form-label" text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
                 <ChoiceBox fx:id="tf_status" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                <Label prefHeight="29.0" prefWidth="57.0" styleClass="form-label" text="Address:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                <WebView fx:id="mapWebView" prefHeight="128.0" prefWidth="392.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label text="Image:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <Button fx:id="uploadImageButton" text="Upload Image" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                <Label prefHeight="29.0" prefWidth="57.0" styleClass="form-label" text="Address:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <WebView fx:id="mapWebView" prefHeight="128.0" prefWidth="392.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <columnConstraints>
                <ColumnConstraints />
                <ColumnConstraints />
             </columnConstraints>
             <rowConstraints>
+               <RowConstraints />
                <RowConstraints />
                <RowConstraints />
                <RowConstraints />

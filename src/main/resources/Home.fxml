@@ -25,6 +25,7 @@
                         <Button fx:id="homeButton" text="Home" />
                         <Button fx:id="servicesButton" text="Services" />
                         <Button fx:id="LoccationsButton" text="Locations" />
+                        <Button fx:id="calendarButton" text="Calendar" />
                         <Button fx:id="logoutButton" text="Logout" />
                     </children>
                 </VBox>

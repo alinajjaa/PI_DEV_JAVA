@@ -7,7 +7,10 @@ import org.agritrace.entities.Location;
 import org.agritrace.entities.Service;
 import org.agritrace.services.LocationServices;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BookService {
     @FXML
@@ -41,9 +44,15 @@ public class BookService {
         dateDebutPicker.setValue(LocalDate.now());
         dateFinPicker.setValue(LocalDate.now().plusDays(1));
 
-        // Add listeners for date changes to update total price
-        dateDebutPicker.valueProperty().addListener((obs, oldVal, newVal) -> updateTotalPrice());
-        dateFinPicker.valueProperty().addListener((obs, oldVal, newVal) -> updateTotalPrice());
+        // Add listeners for date changes to update total price and check availability
+        dateDebutPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+            updateTotalPrice();
+            checkAvailabilityAndUpdateUI();
+        });
+        dateFinPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+            updateTotalPrice();
+            checkAvailabilityAndUpdateUI();
+        });
         
         // Add validation listeners
         dateDebutPicker.valueProperty().addListener((obs, oldVal, newVal) -> validateDates());
@@ -93,6 +102,21 @@ public class BookService {
             confirmButton.setTooltip(tooltip);
         } else {
             confirmButton.setTooltip(null);
+        }
+    }
+
+    private void checkAvailabilityAndUpdateUI() {
+        if (dateDebutPicker.getValue() != null && dateFinPicker.getValue() != null && service != null) {
+            boolean isAvailable = isTimeSlotAvailable(service.getId(), dateDebutPicker.getValue(), dateFinPicker.getValue(), true);
+            confirmButton.setDisable(!isAvailable);
+            
+            if (!isAvailable) {
+                confirmButton.setStyle("-fx-background-color: #ff9999;"); // Light red for unavailable
+                confirmButton.setText("Unavailable");
+            } else {
+                confirmButton.setStyle(""); // Reset to default style
+                confirmButton.setText("Confirm Booking");
+            }
         }
     }
 
@@ -152,6 +176,52 @@ public class BookService {
         if (dateFinPicker.getValue().isBefore(dateDebutPicker.getValue())) {
             showError("End date must be after start date");
             return false;
+        }
+
+        // Check for availability
+        if (!isTimeSlotAvailable(service.getId(), dateDebutPicker.getValue(), dateFinPicker.getValue())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isTimeSlotAvailable(int serviceId, LocalDate startDate, LocalDate endDate) {
+        return isTimeSlotAvailable(serviceId, startDate, endDate, false);
+    }
+
+    private boolean isTimeSlotAvailable(int serviceId, LocalDate startDate, LocalDate endDate, boolean silentCheck) {
+        if (startDate == null || endDate == null) {
+            return true;
+        }
+
+        // Get all existing bookings for this service
+        List<Location> existingBookings = locationServices.getAllData().stream()
+            .filter(loc -> loc.getServiceId() == serviceId)
+            .collect(Collectors.toList());
+
+        // Check for any overlapping bookings
+        for (Location booking : existingBookings) {
+            // Check if the new booking overlaps with any existing booking
+            boolean overlaps = !(endDate.isBefore(booking.getDateDebut()) || 
+                               startDate.isAfter(booking.getDateFin()));
+            
+            if (overlaps) {
+                // Find the actual overlapping period
+                LocalDate overlapStart = startDate.isAfter(booking.getDateDebut()) ? startDate : booking.getDateDebut();
+                LocalDate overlapEnd = endDate.isBefore(booking.getDateFin()) ? endDate : booking.getDateFin();
+                
+                // Show error only if not in silent check mode
+                if (!silentCheck) {
+                    showError(String.format(
+                        "%s is already booked during this period.\nConflicting booking: %s to %s",
+                        service.getNom(),
+                        overlapStart.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                        overlapEnd.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                    ));
+                }
+                return false;
+            }
         }
 
         return true;
